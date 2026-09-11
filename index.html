@@ -46,6 +46,11 @@
       font: inherit;
     }
 
+    button:disabled {
+      opacity: 0.55;
+      cursor: default;
+    }
+
     .site {
       min-height: 100vh;
     }
@@ -56,7 +61,7 @@
     }
 
     .header-inner {
-      width: min(980px, calc(100% - 32px));
+      width: min(1100px, calc(100% - 32px));
       margin: 0 auto;
       padding: 28px 0 24px;
     }
@@ -90,14 +95,14 @@
     }
 
     .main {
-      width: min(980px, calc(100% - 32px));
+      width: min(1100px, calc(100% - 32px));
       margin: 0 auto;
       padding: 28px 0 50px;
     }
 
     .toolbar {
       display: grid;
-      grid-template-columns: minmax(0, 1fr) auto auto;
+      grid-template-columns: minmax(0, 1fr) auto auto auto;
       gap: 12px;
       align-items: end;
       margin-bottom: 18px;
@@ -159,7 +164,8 @@
       font-weight: 700;
       transition:
         background 0.15s ease,
-        border-color 0.15s ease;
+        border-color 0.15s ease,
+        color 0.15s ease;
     }
 
     .button-primary {
@@ -228,6 +234,148 @@
       font-size: 1.15rem;
       font-weight: 700;
     }
+
+    /* =========================================================
+       ANALYSIS
+       ========================================================= */
+
+    .analysis-panel {
+      margin-bottom: 18px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      box-shadow: var(--shadow);
+    }
+
+    .analysis-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      padding: 20px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .analysis-header h2 {
+      margin: 0;
+      font-size: 1.5rem;
+    }
+
+    .analysis-mode {
+      margin: 4px 0 0;
+      color: var(--muted);
+      font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+      font-size: 0.78rem;
+    }
+
+    .analysis-summary {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .analysis-summary > div {
+      padding: 18px 20px;
+    }
+
+    .analysis-summary > div + div {
+      border-left: 1px solid var(--border);
+    }
+
+    .analysis-number {
+      display: block;
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+
+    .analysis-label {
+      display: block;
+      margin-top: 2px;
+      color: var(--muted);
+      font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .analysis-columns {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .word-list-section {
+      min-width: 0;
+      padding: 20px;
+    }
+
+    .word-list-section + .word-list-section {
+      border-left: 1px solid var(--border);
+    }
+
+    .word-list-section h3 {
+      margin: 0;
+      font-size: 1.15rem;
+    }
+
+    .analysis-description {
+      margin: 4px 0 14px;
+      color: var(--muted);
+      font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+      font-size: 0.8rem;
+    }
+
+    .word-list {
+      max-height: 420px;
+      overflow-y: auto;
+      border-top: 1px solid var(--border);
+    }
+
+    .word-list-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 12px;
+      padding: 9px 4px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .word-list-word {
+      overflow-wrap: anywhere;
+      font-weight: 700;
+    }
+
+    .word-list-number {
+      flex-shrink: 0;
+      color: var(--muted);
+      font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+      font-size: 0.7rem;
+    }
+
+    .empty-list {
+      padding: 18px 4px;
+      color: var(--muted);
+      font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+      font-size: 0.82rem;
+    }
+
+    /* =========================================================
+       PRACTICE
+       ========================================================= */
 
     .practice-panel {
       border: 1px solid var(--border);
@@ -398,7 +546,7 @@
     }
 
     .instructions {
-      margin-top: 18px;
+      margin-top: 32px;
       color: var(--muted);
       font-family:
         Arial,
@@ -421,9 +569,23 @@
       line-height: 1.55;
     }
 
+    @media (max-width: 900px) {
+      .toolbar {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .toolbar .field {
+        grid-column: 1 / -1;
+      }
+    }
+
     @media (max-width: 760px) {
       .toolbar {
         grid-template-columns: 1fr;
+      }
+
+      .toolbar .field {
+        grid-column: auto;
       }
 
       .stats-strip {
@@ -447,6 +609,15 @@
         flex-direction: column;
         gap: 4px;
       }
+
+      .analysis-columns {
+        grid-template-columns: 1fr;
+      }
+
+      .word-list-section + .word-list-section {
+        border-left: 0;
+        border-top: 1px solid var(--border);
+      }
     }
 
     @media (max-width: 430px) {
@@ -465,88 +636,363 @@
       .stat-value {
         font-size: 1.05rem;
       }
+
+      .analysis-header {
+        align-items: flex-start;
+        flex-direction: column;
+      }
     }
   </style>
 </head>
 
 <body>
+
   <div class="site">
 
     <header class="header">
       <div class="header-inner">
-        <p class="eyebrow">Senior 2026</p>
-        <h1>Spell Bowl Practice</h1>
-        <p class="header-description">
-          Listen to the word, type the spelling exactly, and continue through a randomized round.
+
+        <p class="eyebrow">
+          Senior 2026
         </p>
+
+        <h1>
+          Spell Bowl Practice
+        </h1>
+
+        <p class="header-description">
+          Listen to the word, type the spelling exactly, and continue through
+          a randomized learning queue. Every practice list has its own
+          independent progress.
+        </p>
+
       </div>
     </header>
+
 
     <main class="main">
 
       <section class="toolbar">
+
         <div class="field">
-          <label class="field-label" for="modeSelect">Practice mode</label>
+
+          <label
+            class="field-label"
+            for="modeSelect"
+          >
+            Practice mode
+          </label>
+
           <select id="modeSelect">
-            <option value="all">Entire list</option>
-            <option value="capitals">Only capitals</option>
-            <option value="spaces">Only spaces</option>
-            <option value="hyphens">Only hyphens</option>
-            <option value="p1p2">Pages 1 + 2</option>
-            <option value="p3p4">Pages 3 + 4</option>
-            <option value="p5p6">Pages 5 + 6</option>
-            <option value="p7p8">Pages 7 + 8</option>
-            <option value="p9p10">Pages 9 + 10</option>
-            <option value="p11">Page 11</option>
+
+            <option value="all">
+              Entire list
+            </option>
+
+            <option value="capitals">
+              Only capitals
+            </option>
+
+            <option value="spaces">
+              Only spaces
+            </option>
+
+            <option value="hyphens">
+              Only hyphens
+            </option>
+
+            <option value="p1p2">
+              Pages 1 + 2
+            </option>
+
+            <option value="p3p4">
+              Pages 3 + 4
+            </option>
+
+            <option value="p5p6">
+              Pages 5 + 6
+            </option>
+
+            <option value="p7p8">
+              Pages 7 + 8
+            </option>
+
+            <option value="p9p10">
+              Pages 9 + 10
+            </option>
+
+            <option value="p11">
+              Page 11
+            </option>
+
           </select>
+
         </div>
 
-        <button id="newRoundBtn" class="button-primary">
+
+        <button
+          id="newRoundBtn"
+          class="button-primary"
+          type="button"
+        >
           New Round
         </button>
 
-        <button id="resetBtn" class="button-danger">
+
+        <button
+          id="analysisBtn"
+          class="button-secondary"
+          type="button"
+        >
+          Analysis
+        </button>
+
+
+        <button
+          id="resetBtn"
+          class="button-danger"
+          type="button"
+        >
           Reset Data
         </button>
+
       </section>
+
 
       <section class="stats-strip">
-        <div class="stat">
-          <div class="stat-name">Correct</div>
-          <div id="correctStat" class="stat-value">0</div>
-        </div>
 
         <div class="stat">
-          <div class="stat-name">Attempts</div>
-          <div id="attemptsStat" class="stat-value">0</div>
+          <div class="stat-name">
+            Correct
+          </div>
+
+          <div
+            id="correctStat"
+            class="stat-value"
+          >
+            0
+          </div>
         </div>
 
-        <div class="stat">
-          <div class="stat-name">Accuracy</div>
-          <div id="accuracyStat" class="stat-value">0%</div>
-        </div>
 
         <div class="stat">
-          <div class="stat-name">Streak</div>
-          <div id="streakStat" class="stat-value">0</div>
+
+          <div class="stat-name">
+            Attempts
+          </div>
+
+          <div
+            id="attemptsStat"
+            class="stat-value"
+          >
+            0
+          </div>
+
         </div>
 
+
         <div class="stat">
-          <div class="stat-name">Best</div>
-          <div id="bestStreakStat" class="stat-value">0</div>
+
+          <div class="stat-name">
+            Accuracy
+          </div>
+
+          <div
+            id="accuracyStat"
+            class="stat-value"
+          >
+            0%
+          </div>
+
         </div>
+
+
+        <div class="stat">
+
+          <div class="stat-name">
+            Streak
+          </div>
+
+          <div
+            id="streakStat"
+            class="stat-value"
+          >
+            0
+          </div>
+
+        </div>
+
+
+        <div class="stat">
+
+          <div class="stat-name">
+            Best
+          </div>
+
+          <div
+            id="bestStreakStat"
+            class="stat-value"
+          >
+            0
+          </div>
+
+        </div>
+
       </section>
+
+
+      <!-- =======================================================
+           ANALYSIS
+           ======================================================= -->
+
+      <section
+        id="analysisPanel"
+        class="analysis-panel"
+        hidden
+      >
+
+        <div class="analysis-header">
+
+          <div>
+
+            <p class="eyebrow">
+              Progress
+            </p>
+
+            <h2>
+              Word Analysis
+            </h2>
+
+            <p
+              id="analysisMode"
+              class="analysis-mode"
+            >
+              Entire list
+            </p>
+
+          </div>
+
+
+          <button
+            id="closeAnalysisBtn"
+            class="button-secondary"
+            type="button"
+          >
+            Close
+          </button>
+
+        </div>
+
+
+        <div class="analysis-summary">
+
+          <div>
+
+            <span
+              id="masteredCount"
+              class="analysis-number"
+            >
+              0
+            </span>
+
+            <span class="analysis-label">
+              Mastered
+            </span>
+
+          </div>
+
+
+          <div>
+
+            <span
+              id="missedCount"
+              class="analysis-number"
+            >
+              0
+            </span>
+
+            <span class="analysis-label">
+              Missed
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <div class="analysis-columns">
+
+          <div class="word-list-section">
+
+            <h3>
+              Mastered
+            </h3>
+
+            <p class="analysis-description">
+              Words you have spelled correctly in this list.
+            </p>
+
+            <div
+              id="masteredList"
+              class="word-list"
+            ></div>
+
+          </div>
+
+
+          <div class="word-list-section">
+
+            <h3>
+              Missed
+            </h3>
+
+            <p class="analysis-description">
+              Words you have missed in this list and still need to practice.
+            </p>
+
+            <div
+              id="missedList"
+              class="word-list"
+            ></div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- =======================================================
+           PRACTICE
+           ======================================================= -->
 
       <section class="practice-panel">
 
         <div class="practice-top">
-          <p id="modeLabel" class="mode-name">Entire list</p>
-          <div id="modeCount" class="mode-count">2,199 words</div>
+
+          <p
+            id="modeLabel"
+            class="mode-name"
+          >
+            Entire list
+          </p>
+
+          <div
+            id="modeCount"
+            class="mode-count"
+          >
+            2,199 words remaining
+          </div>
+
         </div>
+
 
         <div class="practice-body">
 
-          <p class="listen-label">Listen and spell</p>
+          <p class="listen-label">
+            Listen and spell
+          </p>
+
 
           <button
             id="hearBtn"
@@ -556,7 +1002,12 @@
             Hear
           </button>
 
-          <form id="answerForm" class="answer-area" autocomplete="off">
+
+          <form
+            id="answerForm"
+            class="answer-area"
+            autocomplete="off"
+          >
 
             <input
               id="spellInput"
@@ -569,7 +1020,9 @@
               aria-label="Type the spelling"
             >
 
+
             <div class="answer-actions">
+
               <button
                 id="checkBtn"
                 class="button-primary"
@@ -577,35 +1030,62 @@
               >
                 Check
               </button>
+
             </div>
 
           </form>
 
-          <div id="feedback" class="feedback" aria-live="polite"></div>
 
-          <div id="revealedAnswer" class="revealed-answer">
-            <span class="revealed-answer-label">Correct spelling</span>
+          <div
+            id="feedback"
+            class="feedback"
+            aria-live="polite"
+          ></div>
+
+
+          <div
+            id="revealedAnswer"
+            class="revealed-answer"
+          >
+
+            <span class="revealed-answer-label">
+              Correct spelling
+            </span>
+
             <span
               id="revealedAnswerWord"
               class="revealed-answer-word"
             ></span>
+
           </div>
+
 
           <div class="progress-area">
 
             <div class="progress-meta">
-              <span id="progressText">0 / 0</span>
-              <span id="wordNumberText">Word #—</span>
+
+              <span id="progressText">
+                0 / 0
+              </span>
+
+              <span id="wordNumberText">
+                Word #—
+              </span>
+
             </div>
 
+
             <div class="progress-track">
+
               <div
                 id="progressBar"
                 class="progress-bar"
               ></div>
+
             </div>
 
           </div>
+
 
           <div class="instructions">
             Answers are checked exactly as entered. Capitalization, spaces,
@@ -613,27 +1093,26 @@
           </div>
 
         </div>
+
       </section>
 
+
       <div class="footer-note">
-        Pronunciation uses your browser's built-in speech synthesis.
-        The word list and practice data are stored entirely in this page and
-        in your browser's local storage. No backend is required.
+        Practice progress is saved separately for every practice list in this
+        browser. Switching lists does not change progress in any other list.
       </div>
 
     </main>
+
   </div>
 
+
   <script>
+
     /*
-      ============================================================
-      SENIOR 2026 SPELL BOWL WORD LIST
-      ============================================================
-
-      #241 was [removed] and is therefore intentionally omitted.
-
-      Format:
-      number|word
+    ============================================================
+    WORD LIST
+    ============================================================
     */
 
     const RAW_WORDS = `
@@ -2840,181 +3319,339 @@
 
 
     /*
-      ============================================================
-      PARSE WORD LIST
-      ============================================================
+    ============================================================
+    PARSE WORDS
+    ============================================================
     */
 
-    const WORDS = RAW_WORDS
-      .split("\n")
-      .map(line => {
-        const separator = line.indexOf("|");
+    const WORDS =
+      RAW_WORDS
+        .split("\n")
+        .map(line => {
 
-        return {
-          number: Number(line.slice(0, separator)),
-          word: line.slice(separator + 1)
-        };
-      })
-      .filter(item => item.word.length > 0);
+          const separator =
+            line.indexOf("|");
+
+          return {
+            number:
+              Number(
+                line.slice(
+                  0,
+                  separator
+                )
+              ),
+
+            word:
+              line.slice(
+                separator + 1
+              )
+          };
+        })
+        .filter(
+          item =>
+            item.word.length > 0
+        );
 
 
     /*
-      ============================================================
-      MODES
-      ============================================================
+    ============================================================
+    MODES
+    ============================================================
     */
 
     const MODE_NAMES = {
-      all: "Entire list",
-      capitals: "Only capitals",
-      spaces: "Only spaces",
-      hyphens: "Only hyphens",
-      p1p2: "Pages 1 + 2",
-      p3p4: "Pages 3 + 4",
-      p5p6: "Pages 5 + 6",
-      p7p8: "Pages 7 + 8",
-      p9p10: "Pages 9 + 10",
-      p11: "Page 11"
+
+      all:
+        "Entire list",
+
+      capitals:
+        "Only capitals",
+
+      spaces:
+        "Only spaces",
+
+      hyphens:
+        "Only hyphens",
+
+      p1p2:
+        "Pages 1 + 2",
+
+      p3p4:
+        "Pages 3 + 4",
+
+      p5p6:
+        "Pages 5 + 6",
+
+      p7p8:
+        "Pages 7 + 8",
+
+      p9p10:
+        "Pages 9 + 10",
+
+      p11:
+        "Page 11"
     };
 
 
     /*
-      ============================================================
-      STORAGE
-      ============================================================
+    ============================================================
+    STORAGE
+    ============================================================
+
+    wordStatus structure:
+
+    {
+      "all": {
+        "1": "mastered",
+        "2": "missed"
+      },
+
+      "p1p2": {
+        "1": "mastered",
+        "20": "missed"
+      },
+
+      "capitals": {
+        "37": "mastered"
+      }
+    }
+
+    Each mode is completely independent.
+    ============================================================
     */
 
-    const STORAGE_KEY = "spell-bowl-stats-v2";
-    const MODE_KEY = "spell-bowl-mode-v2";
+    const STORAGE_KEY =
+      "spell-bowl-stats-v4";
+
+    const MODE_KEY =
+      "spell-bowl-mode-v4";
+
+    const WORD_STATUS_KEY =
+      "spell-bowl-word-status-v2";
 
 
     /*
-      ============================================================
-      ELEMENTS
-      ============================================================
+    ============================================================
+    ELEMENTS
+    ============================================================
     */
 
     const modeSelect =
-      document.getElementById("modeSelect");
+      document.getElementById(
+        "modeSelect"
+      );
 
     const newRoundBtn =
-      document.getElementById("newRoundBtn");
+      document.getElementById(
+        "newRoundBtn"
+      );
+
+    const analysisBtn =
+      document.getElementById(
+        "analysisBtn"
+      );
+
+    const closeAnalysisBtn =
+      document.getElementById(
+        "closeAnalysisBtn"
+      );
+
+    const analysisPanel =
+      document.getElementById(
+        "analysisPanel"
+      );
+
+    const analysisMode =
+      document.getElementById(
+        "analysisMode"
+      );
 
     const resetBtn =
-      document.getElementById("resetBtn");
+      document.getElementById(
+        "resetBtn"
+      );
 
     const hearBtn =
-      document.getElementById("hearBtn");
+      document.getElementById(
+        "hearBtn"
+      );
 
     const answerForm =
-      document.getElementById("answerForm");
+      document.getElementById(
+        "answerForm"
+      );
 
     const spellInput =
-      document.getElementById("spellInput");
+      document.getElementById(
+        "spellInput"
+      );
 
     const checkBtn =
-      document.getElementById("checkBtn");
+      document.getElementById(
+        "checkBtn"
+      );
 
     const feedback =
-      document.getElementById("feedback");
+      document.getElementById(
+        "feedback"
+      );
 
     const revealedAnswer =
-      document.getElementById("revealedAnswer");
+      document.getElementById(
+        "revealedAnswer"
+      );
 
     const revealedAnswerWord =
-      document.getElementById("revealedAnswerWord");
+      document.getElementById(
+        "revealedAnswerWord"
+      );
 
     const modeLabel =
-      document.getElementById("modeLabel");
+      document.getElementById(
+        "modeLabel"
+      );
 
     const modeCount =
-      document.getElementById("modeCount");
+      document.getElementById(
+        "modeCount"
+      );
 
     const progressText =
-      document.getElementById("progressText");
+      document.getElementById(
+        "progressText"
+      );
 
     const wordNumberText =
-      document.getElementById("wordNumberText");
+      document.getElementById(
+        "wordNumberText"
+      );
 
     const progressBar =
-      document.getElementById("progressBar");
+      document.getElementById(
+        "progressBar"
+      );
 
     const correctStat =
-      document.getElementById("correctStat");
+      document.getElementById(
+        "correctStat"
+      );
 
     const attemptsStat =
-      document.getElementById("attemptsStat");
+      document.getElementById(
+        "attemptsStat"
+      );
 
     const accuracyStat =
-      document.getElementById("accuracyStat");
+      document.getElementById(
+        "accuracyStat"
+      );
 
     const streakStat =
-      document.getElementById("streakStat");
+      document.getElementById(
+        "streakStat"
+      );
 
     const bestStreakStat =
-      document.getElementById("bestStreakStat");
+      document.getElementById(
+        "bestStreakStat"
+      );
+
+    const masteredCount =
+      document.getElementById(
+        "masteredCount"
+      );
+
+    const missedCount =
+      document.getElementById(
+        "missedCount"
+      );
+
+    const masteredList =
+      document.getElementById(
+        "masteredList"
+      );
+
+    const missedList =
+      document.getElementById(
+        "missedList"
+      );
 
 
     /*
-      ============================================================
-      STATE
-      ============================================================
+    ============================================================
+    STATE
+    ============================================================
     */
 
-    let stats = loadStats();
+    let stats =
+      loadStats();
+
+    let wordStatus =
+      loadWordStatus();
 
     let currentMode =
-      localStorage.getItem(MODE_KEY) || "all";
+      localStorage.getItem(
+        MODE_KEY
+      ) || "all";
 
-    if (!MODE_NAMES[currentMode]) {
+    if (
+      !MODE_NAMES[currentMode]
+    ) {
       currentMode = "all";
     }
 
     let currentPool = [];
+
     let deck = [];
-    let deckIndex = 0;
+
     let currentWord = null;
 
-    /*
-      True after the first actual wrong answer for the
-      current word. In this state, pressing Enter moves
-      to the next word.
-    */
-    let awaitingContinue = false;
+    let wrongAnswersForCurrentWord =
+      new Set();
 
-    /*
-      Prevent duplicate wrong answers from creating
-      additional attempts.
-    */
-    let wrongAnswersForCurrentWord = new Set();
+    let wordSequence = 0;
 
 
     /*
-      ============================================================
-      LOAD / SAVE STATS
-      ============================================================
+    ============================================================
+    LOAD / SAVE STATS
+    ============================================================
     */
 
     function loadStats() {
+
       try {
+
         const stored =
           JSON.parse(
-            localStorage.getItem(STORAGE_KEY)
+            localStorage.getItem(
+              STORAGE_KEY
+            )
           );
 
         if (
           stored &&
-          Number.isFinite(stored.correct) &&
-          Number.isFinite(stored.attempts) &&
-          Number.isFinite(stored.streak) &&
-          Number.isFinite(stored.bestStreak)
+          Number.isFinite(
+            stored.correct
+          ) &&
+          Number.isFinite(
+            stored.attempts
+          ) &&
+          Number.isFinite(
+            stored.streak
+          ) &&
+          Number.isFinite(
+            stored.bestStreak
+          )
         ) {
+
           return stored;
         }
 
       } catch (error) {
+
         console.warn(
-          "Unable to load saved statistics.",
+          "Unable to load statistics.",
           error
         );
       }
@@ -3027,133 +3664,325 @@
       };
     }
 
+
     function saveStats() {
+
       localStorage.setItem(
         STORAGE_KEY,
-        JSON.stringify(stats)
+        JSON.stringify(
+          stats
+        )
       );
     }
 
 
     /*
-      ============================================================
-      STATS DISPLAY
-      ============================================================
+    ============================================================
+    LOAD / SAVE MODE-SPECIFIC WORD STATUS
+    ============================================================
     */
 
-    function updateStats() {
-      const accuracy =
-        stats.attempts === 0
-          ? 0
-          : (stats.correct / stats.attempts) * 100;
+    function loadWordStatus() {
 
-      correctStat.textContent =
-        String(stats.correct);
+      try {
 
-      attemptsStat.textContent =
-        String(stats.attempts);
+        const stored =
+          JSON.parse(
+            localStorage.getItem(
+              WORD_STATUS_KEY
+            )
+          );
 
-      accuracyStat.textContent =
-        `${accuracy.toFixed(1)}%`;
+        if (
+          stored &&
+          typeof stored === "object" &&
+          !Array.isArray(stored)
+        ) {
 
-      streakStat.textContent =
-        String(stats.streak);
+          return stored;
+        }
 
-      bestStreakStat.textContent =
-        String(stats.bestStreak);
+      } catch (error) {
+
+        console.warn(
+          "Unable to load word status.",
+          error
+        );
+      }
+
+      return {};
+    }
+
+
+    function saveWordStatus() {
+
+      localStorage.setItem(
+        WORD_STATUS_KEY,
+        JSON.stringify(
+          wordStatus
+        )
+      );
     }
 
 
     /*
-      ============================================================
-      MODE FILTERING
-      ============================================================
+      Make sure the current mode has
+      an object available.
+    */
+    function ensureModeStatus(
+      mode
+    ) {
+
+      if (
+        !wordStatus[mode] ||
+        typeof wordStatus[mode] !==
+          "object" ||
+        Array.isArray(
+          wordStatus[mode]
+        )
+      ) {
+
+        wordStatus[mode] = {};
+      }
+
+      return wordStatus[mode];
+    }
+
+
+    function getWordStatus(
+      word,
+      mode = currentMode
+    ) {
+
+      const modeStatus =
+        ensureModeStatus(
+          mode
+        );
+
+      return (
+        modeStatus[
+          String(word.number)
+        ] || null
+      );
+    }
+
+
+    function markWordMissed(
+      word,
+      mode = currentMode
+    ) {
+
+      const modeStatus =
+        ensureModeStatus(
+          mode
+        );
+
+      modeStatus[
+        String(word.number)
+      ] = "missed";
+
+      saveWordStatus();
+    }
+
+
+    function markWordMastered(
+      word,
+      mode = currentMode
+    ) {
+
+      const modeStatus =
+        ensureModeStatus(
+          mode
+        );
+
+      modeStatus[
+        String(word.number)
+      ] = "mastered";
+
+      saveWordStatus();
+    }
+
+
+    /*
+    ============================================================
+    RANDOM INTEGER
+    ============================================================
     */
 
-    function getPool(mode) {
+    function randomInteger(
+      min,
+      max
+    ) {
+
+      if (
+        max <= min
+      ) {
+        return min;
+      }
+
+      return (
+        Math.floor(
+          Math.random() *
+          (max - min + 1)
+        ) + min
+      );
+    }
+
+
+    /*
+    ============================================================
+    MODE FILTERING
+    ============================================================
+    */
+
+    function getModeWords(
+      mode
+    ) {
+
       switch (mode) {
 
         case "capitals":
+
           return WORDS.filter(
-            ({ word }) => /[A-Z]/.test(word)
+            ({ word }) =>
+              /[A-Z]/.test(
+                word
+              )
           );
+
 
         case "spaces":
+
           return WORDS.filter(
-            ({ word }) => word.includes(" ")
+            ({ word }) =>
+              word.includes(" ")
           );
+
 
         case "hyphens":
+
           return WORDS.filter(
-            ({ word }) => word.includes("-")
+            ({ word }) =>
+              word.includes("-")
           );
 
+
         case "p1p2":
+
           return WORDS.filter(
             ({ number }) =>
               number >= 1 &&
               number <= 400
           );
 
+
         case "p3p4":
+
           return WORDS.filter(
             ({ number }) =>
               number >= 401 &&
               number <= 800
           );
 
+
         case "p5p6":
+
           return WORDS.filter(
             ({ number }) =>
               number >= 801 &&
               number <= 1200
           );
 
+
         case "p7p8":
+
           return WORDS.filter(
             ({ number }) =>
               number >= 1201 &&
               number <= 1600
           );
 
+
         case "p9p10":
+
           return WORDS.filter(
             ({ number }) =>
               number >= 1601 &&
               number <= 2000
           );
 
+
         case "p11":
+
           return WORDS.filter(
             ({ number }) =>
               number >= 2001 &&
               number <= 2200
           );
 
+
         case "all":
         default:
-          return [...WORDS];
+
+          return [
+            ...WORDS
+          ];
       }
     }
 
 
     /*
-      ============================================================
-      SHUFFLING
-      ============================================================
+      IMPORTANT:
+
+      Mastery filtering uses CURRENT MODE.
+
+      Therefore a word mastered in p1p2
+      is still untouched in all.
+
+      A word mastered in all is also still
+      untouched in p1p2.
+    */
+    function getPool(
+      mode
+    ) {
+
+      return getModeWords(
+        mode
+      ).filter(
+        word =>
+          getWordStatus(
+            word,
+            mode
+          ) !==
+          "mastered"
+      );
+    }
+
+
+    /*
+    ============================================================
+    SHUFFLE
+    ============================================================
     */
 
-    function shuffle(array) {
-      const copy = [...array];
+    function shuffle(
+      array
+    ) {
+
+      const copy =
+        [...array];
 
       for (
-        let i = copy.length - 1;
+        let i =
+          copy.length - 1;
         i > 0;
         i--
       ) {
+
         const j =
           Math.floor(
-            Math.random() * (i + 1)
+            Math.random() *
+            (i + 1)
           );
 
         [
@@ -3170,125 +3999,300 @@
 
 
     /*
-      ============================================================
-      START ROUND
-      ============================================================
+    ============================================================
+    START NEW ROUND
+    ============================================================
     */
 
     function startNewRound() {
 
       currentPool =
-        getPool(currentMode);
+        getPool(
+          currentMode
+        );
 
       deck =
-        shuffle(currentPool);
-
-      deckIndex = 0;
+        shuffle(
+          currentPool
+        );
 
       currentWord = null;
-
-      awaitingContinue = false;
 
       wrongAnswersForCurrentWord =
         new Set();
 
+      wordSequence += 1;
+
       modeLabel.textContent =
-        MODE_NAMES[currentMode];
+        MODE_NAMES[
+          currentMode
+        ];
 
-      modeCount.textContent =
-        `${currentPool.length.toLocaleString()} words`;
+      updateModeCount();
 
-      feedback.textContent = "";
+      feedback.textContent =
+        "";
 
       feedback.className =
         "feedback";
 
       hideAnswer();
 
-      showNextWord(true);
+      hearBtn.disabled =
+        false;
+
+      updateAnalysis();
+
+      showNextWord(
+        true
+      );
     }
 
 
     /*
-      ============================================================
-      NEXT WORD
-      ============================================================
+    ============================================================
+    MODE COUNT
+    ============================================================
     */
 
-    function showNextWord(shouldSpeak = true) {
+    function updateModeCount() {
 
-      if (currentPool.length === 0) {
+      const remaining =
+        getPool(
+          currentMode
+        ).length;
 
-        currentWord = null;
+      if (
+        remaining === 0
+      ) {
 
-        feedback.textContent =
-          "No words match this mode.";
-
-        feedback.className =
-          "feedback incorrect";
-
-        spellInput.value = "";
-
-        hideAnswer();
+        modeCount.textContent =
+          "All words mastered";
 
         return;
       }
 
-      /*
-        When the randomized deck is exhausted,
-        shuffle the same pool and begin another round.
-      */
+      modeCount.textContent =
+        `${remaining.toLocaleString()} words remaining`;
+    }
 
-      if (deckIndex >= deck.length) {
-        deck = shuffle(currentPool);
-        deckIndex = 0;
+
+    /*
+    ============================================================
+    NEXT WORD
+    ============================================================
+    */
+
+    function showNextWord(
+      shouldSpeak = true
+    ) {
+
+      /*
+        If the current queue is empty,
+        rebuild it from THIS MODE ONLY.
+
+        This means a mode that has not been
+        practiced starts fresh, regardless of
+        what happened in another mode.
+      */
+      if (
+        deck.length === 0
+      ) {
+
+        currentPool =
+          getPool(
+            currentMode
+          );
+
+        if (
+          currentPool.length === 0
+        ) {
+
+          currentWord =
+            null;
+
+          spellInput.value =
+            "";
+
+          feedback.textContent =
+            "You have mastered every word in this list.";
+
+          feedback.className =
+            "feedback correct";
+
+          checkBtn.textContent =
+            "Check";
+
+          hearBtn.disabled =
+            true;
+
+          progressText.textContent =
+            "Complete";
+
+          wordNumberText.textContent =
+            "All words mastered";
+
+          progressBar.style.width =
+            "100%";
+
+          updateModeCount();
+
+          updateAnalysis();
+
+          return;
+        }
+
+        deck =
+          shuffle(
+            currentPool
+          );
       }
 
+
+      hearBtn.disabled =
+        false;
+
+      /*
+        Take the first word out of
+        the active queue.
+      */
       currentWord =
-        deck[deckIndex];
-
-      deckIndex += 1;
-
-      awaitingContinue = false;
+        deck.shift();
 
       wrongAnswersForCurrentWord =
         new Set();
 
-      spellInput.value = "";
+      wordSequence += 1;
 
-      feedback.textContent = "";
+      spellInput.value =
+        "";
+
+      feedback.textContent =
+        "";
 
       feedback.className =
         "feedback";
 
       hideAnswer();
 
-      checkBtn.textContent = "Check";
+      checkBtn.textContent =
+        "Check";
 
       updateProgress();
 
+      updateModeCount();
+
       spellInput.focus();
 
-      /*
-        Automatically pronounce each new word once.
-      */
-      if (shouldSpeak) {
+      if (
+        shouldSpeak
+      ) {
+
         speakCurrentWord();
       }
     }
 
 
     /*
-      ============================================================
-      SPEECH
-      ============================================================
+    ============================================================
+    MISSED WORD REINSERTION
+    ============================================================
     */
 
-    function speakText(text) {
+    function reinsertMissedWord(
+      word
+    ) {
+
+      const remaining =
+        deck.length;
+
+      /*
+        If there are at least 11 words
+        waiting, place the missed word
+        somewhere after the next 10.
+
+        Valid indices:
+        10 ... remaining - 1
+
+        This guarantees that at least
+        10 other words occur first.
+      */
+      if (
+        remaining > 10
+      ) {
+
+        const insertAt =
+          randomInteger(
+            10,
+            remaining - 1
+          );
+
+        deck.splice(
+          insertAt,
+          0,
+          word
+        );
+
+        return;
+      }
+
+
+      /*
+        With 10 or fewer remaining,
+        a 10-word delay is impossible.
+
+        Randomize among available positions.
+        Avoid the final position whenever
+        there is another possible position.
+      */
+      if (
+        remaining >= 2
+      ) {
+
+        const insertAt =
+          randomInteger(
+            0,
+            remaining - 1
+          );
+
+        deck.splice(
+          insertAt,
+          0,
+          word
+        );
+
+        return;
+      }
+
+
+      /*
+        With zero or one word left,
+        there is no possible non-final
+        position.
+      */
+      deck.push(
+        word
+      );
+    }
+
+
+    /*
+    ============================================================
+    SPEECH
+    ============================================================
+    */
+
+    function speakText(
+      text
+    ) {
 
       if (
-        !("speechSynthesis" in window)
+        !(
+          "speechSynthesis" in
+          window
+        )
       ) {
+
         feedback.textContent =
           "Speech synthesis is not available in this browser.";
 
@@ -3301,11 +4305,18 @@
       window.speechSynthesis.cancel();
 
       const utterance =
-        new SpeechSynthesisUtterance(text);
+        new SpeechSynthesisUtterance(
+          text
+        );
 
-      utterance.rate = 0.9;
-      utterance.pitch = 1;
-      utterance.volume = 1;
+      utterance.rate =
+        0.9;
+
+      utterance.pitch =
+        1;
+
+      utterance.volume =
+        1;
 
       const voices =
         window.speechSynthesis.getVoices();
@@ -3313,14 +4324,21 @@
       const preferredVoice =
         voices.find(
           voice =>
-            /^en-US$/i.test(voice.lang)
+            /^en-US$/i.test(
+              voice.lang
+            )
         ) ||
         voices.find(
           voice =>
-            /^en/i.test(voice.lang)
+            /^en/i.test(
+              voice.lang
+            )
         );
 
-      if (preferredVoice) {
+      if (
+        preferredVoice
+      ) {
+
         utterance.voice =
           preferredVoice;
       }
@@ -3330,8 +4348,12 @@
       );
     }
 
+
     function speakCurrentWord() {
-      if (!currentWord) {
+
+      if (
+        !currentWord
+      ) {
         return;
       }
 
@@ -3342,12 +4364,18 @@
 
 
     /*
-      ============================================================
-      ANSWER REVEAL
-      ============================================================
+    ============================================================
+    ANSWER REVEAL
+    ============================================================
     */
 
     function showAnswer() {
+
+      if (
+        !currentWord
+      ) {
+        return;
+      }
 
       revealedAnswerWord.textContent =
         currentWord.word;
@@ -3356,6 +4384,7 @@
         "visible"
       );
     }
+
 
     function hideAnswer() {
 
@@ -3369,78 +4398,320 @@
 
 
     /*
-      ============================================================
-      PROGRESS
-      ============================================================
+    ============================================================
+    PROGRESS
+    ============================================================
     */
 
     function updateProgress() {
 
-      const total =
-        currentPool.length;
-
-      const position =
-        Math.min(
-          deckIndex,
-          total
+      const modeWords =
+        getModeWords(
+          currentMode
         );
 
+      const mastered =
+        modeWords.filter(
+          word =>
+            getWordStatus(
+              word,
+              currentMode
+            ) ===
+            "mastered"
+        ).length;
+
+      const total =
+        modeWords.length;
+
+      if (
+        total === 0
+      ) {
+
+        progressText.textContent =
+          "0 / 0";
+
+        progressBar.style.width =
+          "0%";
+
+        return;
+      }
+
       progressText.textContent =
-        `${position.toLocaleString()} / ${total.toLocaleString()}`;
+        `${mastered.toLocaleString()} / ${total.toLocaleString()}`;
+
+      const percent =
+        (
+          mastered /
+          total
+        ) * 100;
+
+      progressBar.style.width =
+        `${Math.min(
+          percent,
+          100
+        )}%`;
 
       wordNumberText.textContent =
         currentWord
           ? `Word #${currentWord.number}`
           : "Word #—";
-
-      const percent =
-        total === 0
-          ? 0
-          : (position / total) * 100;
-
-      progressBar.style.width =
-        `${Math.min(percent, 100)}%`;
     }
 
 
     /*
-      ============================================================
-      ANSWER CHECKING
-      ============================================================
+    ============================================================
+    ANALYSIS
+    ============================================================
+    */
+
+    function getModeMasteredWords() {
+
+      return getModeWords(
+        currentMode
+      )
+        .filter(
+          word =>
+            getWordStatus(
+              word,
+              currentMode
+            ) ===
+            "mastered"
+        )
+        .sort(
+          (a, b) =>
+            a.number - b.number
+        );
+    }
+
+
+    function getModeMissedWords() {
+
+      return getModeWords(
+        currentMode
+      )
+        .filter(
+          word =>
+            getWordStatus(
+              word,
+              currentMode
+            ) ===
+            "missed"
+        )
+        .sort(
+          (a, b) =>
+            a.number - b.number
+        );
+    }
+
+
+    function renderWordList(
+      container,
+      words,
+      emptyMessage
+    ) {
+
+      container.textContent =
+        "";
+
+      if (
+        words.length === 0
+      ) {
+
+        const empty =
+          document.createElement(
+            "div"
+          );
+
+        empty.className =
+          "empty-list";
+
+        empty.textContent =
+          emptyMessage;
+
+        container.appendChild(
+          empty
+        );
+
+        return;
+      }
+
+
+      const fragment =
+        document.createDocumentFragment();
+
+
+      words.forEach(
+        word => {
+
+          const row =
+            document.createElement(
+              "div"
+            );
+
+          row.className =
+            "word-list-item";
+
+
+          const wordElement =
+            document.createElement(
+              "span"
+            );
+
+          wordElement.className =
+            "word-list-word";
+
+          wordElement.textContent =
+            word.word;
+
+
+          const numberElement =
+            document.createElement(
+              "span"
+            );
+
+          numberElement.className =
+            "word-list-number";
+
+          numberElement.textContent =
+            `#${word.number}`;
+
+
+          row.appendChild(
+            wordElement
+          );
+
+          row.appendChild(
+            numberElement
+          );
+
+          fragment.appendChild(
+            row
+          );
+        }
+      );
+
+
+      container.appendChild(
+        fragment
+      );
+    }
+
+
+    function updateAnalysis() {
+
+      const masteredWords =
+        getModeMasteredWords();
+
+      const missedWords =
+        getModeMissedWords();
+
+
+      analysisMode.textContent =
+        MODE_NAMES[
+          currentMode
+        ];
+
+
+      masteredCount.textContent =
+        String(
+          masteredWords.length
+        );
+
+
+      missedCount.textContent =
+        String(
+          missedWords.length
+        );
+
+
+      renderWordList(
+        masteredList,
+        masteredWords,
+        "You have not mastered any words in this list yet."
+      );
+
+
+      renderWordList(
+        missedList,
+        missedWords,
+        "You have not missed any words in this list yet."
+      );
+    }
+
+
+    function openAnalysis() {
+
+      updateAnalysis();
+
+      analysisPanel.hidden =
+        false;
+
+      analysisPanel.scrollIntoView({
+        behavior:
+          "smooth",
+
+        block:
+          "start"
+      });
+    }
+
+
+    function closeAnalysis() {
+
+      analysisPanel.hidden =
+        true;
+    }
+
+
+    /*
+    ============================================================
+    SUBMIT ANSWER
+    ============================================================
     */
 
     function handleSubmit() {
 
-      if (!currentWord) {
+      if (
+        !currentWord
+      ) {
+
         startNewRound();
+
         return;
       }
 
+
       /*
-        After an incorrect answer has been revealed,
-        Enter moves to the next word.
+        If the answer has already been
+        revealed, Check becomes Next Word.
       */
-      if (awaitingContinue) {
-        showNextWord(true);
+      if (
+        revealedAnswer.classList.contains(
+          "visible"
+        )
+      ) {
+
+        showNextWord(
+          true
+        );
+
         return;
       }
 
-      /*
-        Do not trim, lowercase, normalize, or otherwise
-        modify the submitted answer.
 
-        Exact comparison is intentional.
-      */
       const submitted =
         spellInput.value;
 
       const expected =
         currentWord.word;
 
+
       /*
         Empty answers do not count.
       */
-      if (submitted.length === 0) {
+      if (
+        submitted.length === 0
+      ) {
 
         feedback.textContent =
           "Enter an answer first.";
@@ -3451,47 +4722,113 @@
         return;
       }
 
+
       /*
-        Exact correct answer.
+      ==========================================================
+      CORRECT
+      ==========================================================
       */
-      if (submitted === expected) {
+
+      if (
+        submitted ===
+        expected
+      ) {
 
         stats.attempts += 1;
+
         stats.correct += 1;
+
         stats.streak += 1;
+
 
         if (
           stats.streak >
           stats.bestStreak
         ) {
+
           stats.bestStreak =
             stats.streak;
         }
 
+
+        /*
+          THIS IS MODE-SPECIFIC.
+
+          A word mastered in p1p2 is
+          mastered only in p1p2.
+        */
+        markWordMastered(
+          currentWord,
+          currentMode
+        );
+
+
         saveStats();
+
+
         updateStats();
 
+        updateProgress();
+
+        updateModeCount();
+
+        updateAnalysis();
+
+
         feedback.textContent =
-          "Correct.";
+          "Correct. Mastered in this list.";
 
         feedback.className =
           "feedback correct";
 
-        /*
-          Move automatically after a very
-          brief delay so the result is visible.
-        */
-        setTimeout(() => {
-          showNextWord(true);
-        }, 300);
+
+        checkBtn.textContent =
+          "Next Word";
+
+
+        const sequenceAtAnswer =
+          wordSequence;
+
+
+        setTimeout(
+          () => {
+
+            /*
+              Don't advance if the user has
+              already manually changed words.
+            */
+            if (
+              sequenceAtAnswer !==
+              wordSequence
+            ) {
+
+              return;
+            }
+
+
+            showNextWord(
+              true
+            );
+
+          },
+          300
+        );
+
 
         return;
       }
 
+
       /*
-        If this exact same wrong answer has already
-        been submitted for the current word, it does
-        not count as another attempt.
+      ==========================================================
+      WRONG
+      ==========================================================
+      */
+
+      /*
+        Prevent the exact same wrong response
+        from being counted twice on one
+        exposure.
       */
       if (
         wrongAnswersForCurrentWord.has(
@@ -3508,78 +4845,130 @@
         return;
       }
 
-      /*
-        First unique wrong answer.
-      */
+
       wrongAnswersForCurrentWord.add(
         submitted
       );
 
+
       stats.attempts += 1;
+
       stats.streak = 0;
 
+
+      /*
+        THIS IS ALSO MODE-SPECIFIC.
+
+        The word becomes missed only for
+        the list currently being practiced.
+      */
+      markWordMissed(
+        currentWord,
+        currentMode
+      );
+
+
       saveStats();
+
+
       updateStats();
 
+      updateAnalysis();
+
+      updateProgress();
+
+
       feedback.textContent =
-        "Incorrect.";
+        "Incorrect. This word will return later.";
 
       feedback.className =
         "feedback incorrect";
 
+
       showAnswer();
 
-      /*
-        From this point, pressing Enter moves
-        to the next word.
-      */
-      awaitingContinue = true;
 
       checkBtn.textContent =
         "Next Word";
 
+
       /*
-        Select the entered text so the revealed
-        answer is visually distinct and the
-        interface is ready for the next Enter.
+        Reinsert this word into the CURRENT
+        mode's active queue.
+
+        It does not affect another mode's queue.
       */
+      reinsertMissedWord(
+        currentWord
+      );
+
+
       spellInput.select();
     }
 
 
     /*
-      ============================================================
-      EVENTS
-      ============================================================
+    ============================================================
+    EVENTS
+    ============================================================
     */
 
     answerForm.addEventListener(
       "submit",
       event => {
+
         event.preventDefault();
+
         handleSubmit();
       }
     );
 
+
     hearBtn.addEventListener(
       "click",
       () => {
+
         speakCurrentWord();
+
         spellInput.focus();
       }
     );
 
+
     newRoundBtn.addEventListener(
       "click",
       () => {
+
         startNewRound();
       }
     );
+
+
+    analysisBtn.addEventListener(
+      "click",
+      () => {
+
+        openAnalysis();
+      }
+    );
+
+
+    closeAnalysisBtn.addEventListener(
+      "click",
+      () => {
+
+        closeAnalysis();
+      }
+    );
+
 
     modeSelect.addEventListener(
       "change",
       () => {
 
+        /*
+          Save the selected mode.
+        */
         currentMode =
           modeSelect.value;
 
@@ -3588,9 +4977,27 @@
           currentMode
         );
 
+
+        /*
+          Close the old analysis view
+          so the next mode starts clean.
+        */
+        closeAnalysis();
+
+
+        /*
+          IMPORTANT:
+
+          startNewRound() calls getPool()
+          using the NEW currentMode.
+
+          Therefore the new mode gets its
+          own independent progress.
+        */
         startNewRound();
       }
     );
+
 
     resetBtn.addEventListener(
       "click",
@@ -3598,13 +5005,21 @@
 
         const confirmed =
           window.confirm(
-            "Reset your saved score, attempts, streaks, and current mode?"
+            "Reset ALL saved scores and progress for EVERY practice list?"
           );
 
-        if (!confirmed) {
+
+        if (
+          !confirmed
+        ) {
+
           return;
         }
 
+
+        /*
+          Clear all persisted data.
+        */
         localStorage.removeItem(
           STORAGE_KEY
         );
@@ -3613,6 +5028,14 @@
           MODE_KEY
         );
 
+        localStorage.removeItem(
+          WORD_STATUS_KEY
+        );
+
+
+        /*
+          Reset in-memory data.
+        */
         stats = {
           correct: 0,
           attempts: 0,
@@ -3620,42 +5043,75 @@
           bestStreak: 0
         };
 
-        currentMode = "all";
 
-        modeSelect.value = "all";
+        wordStatus = {};
+
+        currentMode =
+          "all";
+
+
+        modeSelect.value =
+          "all";
+
+
+        closeAnalysis();
 
         updateStats();
+
         startNewRound();
       }
     );
 
 
     /*
-      ============================================================
-      INITIALIZE
-      ============================================================
+    ============================================================
+    KEYBOARD
+    ============================================================
+    */
+
+    document.addEventListener(
+      "keydown",
+      event => {
+
+        if (
+          event.key === "Enter" &&
+          document.activeElement ===
+            spellInput &&
+          revealedAnswer.classList.contains(
+            "visible"
+          )
+        ) {
+
+          event.preventDefault();
+
+          showNextWord(
+            true
+          );
+        }
+      }
+    );
+
+
+    /*
+    ============================================================
+    INITIALIZE
+    ============================================================
     */
 
     modeSelect.value =
       currentMode;
 
+
     updateStats();
 
-    /*
-      Do not automatically speak on initial page load,
-      because browsers commonly block speech synthesis
-      until the user interacts with the page.
+    updateAnalysis();
 
-      The first new word is therefore spoken after
-      the first New Round / Hear / answer interaction.
-    */
-    startNewRound(false);
+    startNewRound();
 
-    /*
-      Load browser voices when they become available.
-    */
+
     if (
-      "speechSynthesis" in window
+      "speechSynthesis" in
+      window
     ) {
 
       window.speechSynthesis.getVoices();
@@ -3663,10 +5119,13 @@
       window.speechSynthesis.addEventListener(
         "voiceschanged",
         () => {
+
           window.speechSynthesis.getVoices();
         }
       );
     }
+
   </script>
+
 </body>
 </html>
