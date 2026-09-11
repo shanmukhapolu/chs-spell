@@ -1,0 +1,3672 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Spell Bowl Practice</title>
+
+  <style>
+    :root {
+      --page: #f7f7f5;
+      --surface: #ffffff;
+      --surface-muted: #f1f1ee;
+      --border: #d8d8d2;
+      --text: #22221f;
+      --muted: #6c6c66;
+      --accent: #1f4d78;
+      --accent-hover: #163a5b;
+      --success: #286b45;
+      --error: #9a3131;
+      --shadow: 0 4px 18px rgba(0, 0, 0, 0.045);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      font-size: 16px;
+    }
+
+    body {
+      margin: 0;
+      background: var(--page);
+      color: var(--text);
+      font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+      line-height: 1.5;
+    }
+
+    button,
+    input,
+    select {
+      font: inherit;
+    }
+
+    .site {
+      min-height: 100vh;
+    }
+
+    .header {
+      border-bottom: 1px solid var(--border);
+      background: var(--surface);
+    }
+
+    .header-inner {
+      width: min(980px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 28px 0 24px;
+    }
+
+    .eyebrow {
+      margin: 0 0 4px;
+      color: var(--accent);
+      font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 2.1rem;
+      line-height: 1.15;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .header-description {
+      margin: 8px 0 0;
+      max-width: 700px;
+      color: var(--muted);
+      font-size: 1rem;
+    }
+
+    .main {
+      width: min(980px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 28px 0 50px;
+    }
+
+    .toolbar {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto auto;
+      gap: 12px;
+      align-items: end;
+      margin-bottom: 18px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .field-label {
+      font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+      color: var(--muted);
+      font-size: 0.76rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    select,
+    input[type="text"] {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      background: var(--surface);
+      color: var(--text);
+      outline: none;
+      transition:
+        border-color 0.15s ease,
+        box-shadow 0.15s ease;
+    }
+
+    select {
+      min-height: 45px;
+      padding: 9px 12px;
+    }
+
+    select:focus,
+    input[type="text"]:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 2px rgba(31, 77, 120, 0.11);
+    }
+
+    button {
+      min-height: 45px;
+      padding: 9px 15px;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      cursor: pointer;
+      font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+      font-size: 0.9rem;
+      font-weight: 700;
+      transition:
+        background 0.15s ease,
+        border-color 0.15s ease;
+    }
+
+    .button-primary {
+      border-color: var(--accent);
+      background: var(--accent);
+      color: white;
+    }
+
+    .button-primary:hover {
+      border-color: var(--accent-hover);
+      background: var(--accent-hover);
+    }
+
+    .button-secondary {
+      background: var(--surface);
+      color: var(--text);
+    }
+
+    .button-secondary:hover {
+      background: var(--surface-muted);
+    }
+
+    .button-danger {
+      background: var(--surface);
+      color: var(--error);
+    }
+
+    .button-danger:hover {
+      border-color: #c8aaaa;
+      background: #fbf6f6;
+    }
+
+    .stats-strip {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      background: var(--surface);
+      margin-bottom: 18px;
+    }
+
+    .stat {
+      min-width: 0;
+      padding: 14px 16px;
+      border-right: 1px solid var(--border);
+    }
+
+    .stat:last-child {
+      border-right: 0;
+    }
+
+    .stat-name {
+      color: var(--muted);
+      font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .stat-value {
+      margin-top: 2px;
+      font-size: 1.15rem;
+      font-weight: 700;
+    }
+
+    .practice-panel {
+      border: 1px solid var(--border);
+      background: var(--surface);
+      box-shadow: var(--shadow);
+    }
+
+    .practice-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      align-items: center;
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .mode-name {
+      margin: 0;
+      font-size: 0.98rem;
+      font-weight: 700;
+    }
+
+    .mode-count {
+      color: var(--muted);
+      font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+      font-size: 0.8rem;
+      white-space: nowrap;
+    }
+
+    .practice-body {
+      padding: 48px 30px 34px;
+      text-align: center;
+    }
+
+    .listen-label {
+      margin: 0 0 14px;
+      color: var(--muted);
+      font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+    }
+
+    .hear-button {
+      min-width: 120px;
+      margin-bottom: 28px;
+    }
+
+    .answer-area {
+      width: min(650px, 100%);
+      margin: 0 auto;
+    }
+
+    #spellInput {
+      min-height: 58px;
+      padding: 12px 16px;
+      text-align: center;
+      font-size: 1.35rem;
+      line-height: 1.2;
+    }
+
+    .answer-actions {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .answer-actions button {
+      min-width: 110px;
+    }
+
+    .feedback {
+      min-height: 26px;
+      margin-top: 17px;
+      font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+      font-size: 0.92rem;
+      font-weight: 700;
+    }
+
+    .feedback.correct {
+      color: var(--success);
+    }
+
+    .feedback.incorrect {
+      color: var(--error);
+    }
+
+    .revealed-answer {
+      display: none;
+      width: min(650px, 100%);
+      margin: 16px auto 0;
+      padding: 13px 15px;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      background: #fafaf8;
+      text-align: center;
+    }
+
+    .revealed-answer.visible {
+      display: block;
+    }
+
+    .revealed-answer-label {
+      display: block;
+      margin-bottom: 4px;
+      color: var(--muted);
+      font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+    }
+
+    .revealed-answer-word {
+      font-family:
+        "Courier New",
+        Courier,
+        monospace;
+      font-size: 1rem;
+      font-weight: 700;
+      overflow-wrap: anywhere;
+    }
+
+    .progress-area {
+      margin-top: 32px;
+      text-align: left;
+    }
+
+    .progress-meta {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      color: var(--muted);
+      font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+      font-size: 0.75rem;
+    }
+
+    .progress-track {
+      width: 100%;
+      height: 5px;
+      margin-top: 7px;
+      overflow: hidden;
+      background: #e9e9e4;
+    }
+
+    .progress-bar {
+      width: 0;
+      height: 100%;
+      background: var(--accent);
+      transition: width 0.2s ease;
+    }
+
+    .instructions {
+      margin-top: 18px;
+      color: var(--muted);
+      font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+      font-size: 0.78rem;
+      line-height: 1.6;
+    }
+
+    .footer-note {
+      margin-top: 18px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+      font-size: 0.75rem;
+      line-height: 1.55;
+    }
+
+    @media (max-width: 760px) {
+      .toolbar {
+        grid-template-columns: 1fr;
+      }
+
+      .stats-strip {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .stat:nth-child(2) {
+        border-right: 0;
+      }
+
+      .stat:nth-child(-n + 3) {
+        border-bottom: 1px solid var(--border);
+      }
+
+      .practice-body {
+        padding: 34px 18px 28px;
+      }
+
+      .practice-top {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 4px;
+      }
+    }
+
+    @media (max-width: 430px) {
+      h1 {
+        font-size: 1.8rem;
+      }
+
+      .stats-strip {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .stat {
+        padding: 12px;
+      }
+
+      .stat-value {
+        font-size: 1.05rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="site">
+
+    <header class="header">
+      <div class="header-inner">
+        <p class="eyebrow">Senior 2026</p>
+        <h1>Spell Bowl Practice</h1>
+        <p class="header-description">
+          Listen to the word, type the spelling exactly, and continue through a randomized round.
+        </p>
+      </div>
+    </header>
+
+    <main class="main">
+
+      <section class="toolbar">
+        <div class="field">
+          <label class="field-label" for="modeSelect">Practice mode</label>
+          <select id="modeSelect">
+            <option value="all">Entire list</option>
+            <option value="capitals">Only capitals</option>
+            <option value="spaces">Only spaces</option>
+            <option value="hyphens">Only hyphens</option>
+            <option value="p1p2">Pages 1 + 2</option>
+            <option value="p3p4">Pages 3 + 4</option>
+            <option value="p5p6">Pages 5 + 6</option>
+            <option value="p7p8">Pages 7 + 8</option>
+            <option value="p9p10">Pages 9 + 10</option>
+            <option value="p11">Page 11</option>
+          </select>
+        </div>
+
+        <button id="newRoundBtn" class="button-primary">
+          New Round
+        </button>
+
+        <button id="resetBtn" class="button-danger">
+          Reset Data
+        </button>
+      </section>
+
+      <section class="stats-strip">
+        <div class="stat">
+          <div class="stat-name">Correct</div>
+          <div id="correctStat" class="stat-value">0</div>
+        </div>
+
+        <div class="stat">
+          <div class="stat-name">Attempts</div>
+          <div id="attemptsStat" class="stat-value">0</div>
+        </div>
+
+        <div class="stat">
+          <div class="stat-name">Accuracy</div>
+          <div id="accuracyStat" class="stat-value">0%</div>
+        </div>
+
+        <div class="stat">
+          <div class="stat-name">Streak</div>
+          <div id="streakStat" class="stat-value">0</div>
+        </div>
+
+        <div class="stat">
+          <div class="stat-name">Best</div>
+          <div id="bestStreakStat" class="stat-value">0</div>
+        </div>
+      </section>
+
+      <section class="practice-panel">
+
+        <div class="practice-top">
+          <p id="modeLabel" class="mode-name">Entire list</p>
+          <div id="modeCount" class="mode-count">2,199 words</div>
+        </div>
+
+        <div class="practice-body">
+
+          <p class="listen-label">Listen and spell</p>
+
+          <button
+            id="hearBtn"
+            class="button-secondary hear-button"
+            type="button"
+          >
+            Hear
+          </button>
+
+          <form id="answerForm" class="answer-area" autocomplete="off">
+
+            <input
+              id="spellInput"
+              type="text"
+              autocomplete="off"
+              autocorrect="off"
+              autocapitalize="off"
+              spellcheck="false"
+              placeholder="Type the spelling"
+              aria-label="Type the spelling"
+            >
+
+            <div class="answer-actions">
+              <button
+                id="checkBtn"
+                class="button-primary"
+                type="submit"
+              >
+                Check
+              </button>
+            </div>
+
+          </form>
+
+          <div id="feedback" class="feedback" aria-live="polite"></div>
+
+          <div id="revealedAnswer" class="revealed-answer">
+            <span class="revealed-answer-label">Correct spelling</span>
+            <span
+              id="revealedAnswerWord"
+              class="revealed-answer-word"
+            ></span>
+          </div>
+
+          <div class="progress-area">
+
+            <div class="progress-meta">
+              <span id="progressText">0 / 0</span>
+              <span id="wordNumberText">Word #—</span>
+            </div>
+
+            <div class="progress-track">
+              <div
+                id="progressBar"
+                class="progress-bar"
+              ></div>
+            </div>
+
+          </div>
+
+          <div class="instructions">
+            Answers are checked exactly as entered. Capitalization, spaces,
+            hyphens, apostrophes, and other punctuation matter.
+          </div>
+
+        </div>
+      </section>
+
+      <div class="footer-note">
+        Pronunciation uses your browser's built-in speech synthesis.
+        The word list and practice data are stored entirely in this page and
+        in your browser's local storage. No backend is required.
+      </div>
+
+    </main>
+  </div>
+
+  <script>
+    /*
+      ============================================================
+      SENIOR 2026 SPELL BOWL WORD LIST
+      ============================================================
+
+      #241 was [removed] and is therefore intentionally omitted.
+
+      Format:
+      number|word
+    */
+
+    const RAW_WORDS = `
+1|abashment
+2|abdication
+3|abdomen
+4|abhorrent
+5|abnegate
+6|abomination
+7|aboriginal
+8|absorbent
+9|abstraction
+10|abstractly
+11|abysmal
+12|accelerator
+13|accidence
+14|accompaniment
+15|accountable
+16|accountancy
+17|accursed
+18|accusation
+19|achievable
+20|acidulation
+21|acknowledge
+22|acquisitive
+23|actuary
+24|actuate
+25|adaptability
+26|addressee
+27|adduce
+28|adherent
+29|adhering
+30|adjudging
+31|adjudicate
+32|administrate
+33|admittance
+34|adoration
+35|adulterant
+36|advantageous
+37|Advent
+38|advertising
+39|aerator
+40|aerial
+41|affectation
+42|affix
+43|afflict
+44|aforethought
+45|aggregative
+46|aggression
+47|agnosticism
+48|ague
+49|Air Medal
+50|air pocket
+51|airsickness
+52|alarmist
+53|Alaska
+54|alcohol
+55|aleurometer
+56|algebraically
+57|Algonquian
+58|alimentation
+59|allegedly
+60|alleviate
+61|allotment
+62|alluvium
+63|ally
+64|alright
+65|altar
+66|alter
+67|altitude
+68|altogether
+69|amassment
+70|amateur
+71|ambient
+72|ambiguity
+73|Americana
+74|amino
+75|Amish
+76|amorally
+77|amplification
+78|anabolism
+79|analytical
+80|anatomy
+81|ancestor
+82|anemometer
+83|anemone
+84|Anglican
+85|anhydrous
+86|anile
+87|anno Domini
+88|annular
+89|annulet
+90|anonymous
+91|ante meridiem
+92|antebellum
+93|anthology
+94|anticipatory
+95|antipodal
+96|antithetic
+97|aperture
+98|apishly
+99|apologizing
+100|apologue
+101|apothegm
+102|appealable
+103|appendage
+104|appliance
+105|applicability
+106|apportion
+107|appreciatively
+108|appropriate
+109|appropriately
+110|aqueous
+111|aquiline
+112|arbitrative
+113|arccosine
+114|archaist
+115|architecture
+116|archival
+117|Argentina
+118|argon
+119|armadillo
+120|arnica
+121|arranging
+122|arrant
+123|arrowhead
+124|arroz con pollo
+125|arthropod
+126|artichoke
+127|ascent
+128|ascertain
+129|ascertainable
+130|ashen
+131|asphyxiate
+132|assassinate
+133|assemblyman
+134|assiduity
+135|assiduous
+136|Assiniboin
+137|assistant
+138|assumable
+139|asthmatic
+140|astride
+141|astringency
+142|asylum
+143|asymmetric
+144|athletically
+145|atlatl
+146|atonality
+147|atropine
+148|attraction
+149|Aubusson
+150|Audubon
+151|auger
+152|Auger effect
+153|augur
+154|auriferous
+155|aurora borealis
+156|authoritarian
+157|automatic
+158|autumnal
+159|auxiliary
+160|averse
+161|avoidance
+162|aweigh
+163|azalea
+164|azimuth
+165|Babylon
+166|bacteriologist
+167|bacteriology
+168|Balinese
+169|ballot box
+170|banal
+171|banality
+172|bankrupt
+173|Baptist
+174|baptistery
+175|barbed wire
+176|barberry
+177|bare-handed
+178|bareheaded
+179|barony
+180|baroque
+181|barrister
+182|baseborn
+183|basketwork
+184|bastion
+185|bate
+186|batik
+187|batiste
+188|battle cry
+189|beachcomber
+190|bearing
+191|beau geste
+192|beaucoup
+193|beckoning
+194|becloud
+195|bedim
+196|bedizen
+197|beech
+198|beef Stroganoff
+199|befittingly
+200|behaviorism
+201|behavioristic
+202|belabor
+203|belated
+204|belittle
+205|beloved
+206|belowground
+207|benediction
+208|Bengal tiger
+209|benighted
+210|bereaved
+211|bereavement
+212|besetting
+213|bestow
+214|betrothal
+215|bewildered
+216|bibelot
+217|Bible Belt
+218|bicuspid
+219|Biedermeier
+220|bifocal
+221|bifurcate
+222|bilge
+223|biliary
+224|binocular
+225|binomial
+226|bipartisan
+227|bipartite
+228|bisect
+229|bittern
+230|bitterness
+231|Black Hills
+232|blackjack
+233|Blanda
+234|blandish
+235|blastula
+236|blatancy
+237|blellum
+238|blintze
+239|blood test
+240|bloodstained
+242|blow-by-blow
+243|blundering
+244|bluntly
+245|boarding school
+246|bobolink
+247|bobsled
+248|boiler
+249|bombard
+250|bombardier
+251|bonbon
+252|bonhomie
+253|bookplate
+254|borborygmus
+255|boron
+256|botfly
+257|bouillabaisse
+258|bourgeois
+259|bourgeoisie
+260|bowstring
+261|braggadocio
+262|braggart
+263|bramble
+264|breakable
+265|breath
+266|breathe
+267|brevet
+268|brigantine
+269|brighten
+270|brininess
+271|British
+272|Briton
+273|brocaded
+274|broccoli
+275|bronchitis
+276|bronchodilator
+277|brownstone
+278|browse
+279|brutality
+280|buckram
+281|budgeteer
+282|built-in
+283|bulbar
+284|bullfinch
+285|bumpier
+286|bunkhouse
+287|burgeon
+288|burgess
+289|Burma
+290|buskin
+291|butterfat
+292|butterfingers
+293|by-product
+294|cablegram
+295|cabling
+296|caddie
+297|caddish
+298|cagey
+299|calamitous
+300|calculus
+301|calendar
+302|calla lily
+303|calorimeter
+304|calumniate
+305|cambric
+306|camellia
+307|camphorated
+308|canceling
+309|Candlemas
+310|cannibalism
+311|canopic jar
+312|canopy
+313|Cantonese
+314|capitalism
+315|capsize
+316|carbon dioxide
+317|carbonaceous
+318|cardigan
+319|caretaker
+320|careworn
+321|carnage
+322|carnassial
+323|carousel
+324|cartage
+325|carte blanche
+326|cascara sagrada
+327|case-hardened
+328|cassowary
+329|castanet
+330|casuistry
+331|catalepsy
+332|catalyze
+333|catamaran
+334|catechize
+335|catheter
+336|cathode
+337|caucus
+338|caudal
+339|cautery
+340|caution
+341|Cayuga
+342|Cayuse
+343|ceded
+344|celestial
+345|cenobitic
+346|cenotaph
+347|centennial
+348|cephalic
+349|ceramic
+350|cercus
+351|certificate
+352|chaconne
+353|chaffer
+354|chafing dish
+355|challis
+356|changeability
+357|characteristic
+358|charnel
+359|chasuble
+360|chateau
+361|checkerboard
+362|chemotherapy
+363|chevron
+364|chiffon
+365|chiffonier
+366|chimera
+367|chinoiserie
+368|chirographical
+369|chloride
+370|chlorination
+371|choleric
+372|cholesterol
+373|chorizo
+374|chromatically
+375|chromium
+376|chrysolite
+377|chubbiness
+378|chutney
+379|chyle
+380|circularize
+381|circulate
+382|circumvent
+383|circumvention
+384|cist
+385|citric acid
+386|citron
+387|claimant
+388|clapboard
+389|classicism
+390|cleanliness
+391|clergyman
+392|cleric
+393|climb
+394|clime
+395|cloche
+396|cloture
+397|cockatoo
+398|cockcrow
+399|coddle
+400|coercive
+401|cognizant
+402|cognomen
+403|coincidental
+404|collaboration
+405|collaborator
+406|colloquialism
+407|colonization
+408|columbine
+409|columbium
+410|commend
+411|comminute
+412|commodious
+413|commodity
+414|communion
+415|communique
+416|companionship
+417|companionway
+418|compelled
+419|compilation
+420|compile
+421|complexity
+422|compliance
+423|composed
+424|compressible
+425|compression
+426|comrade
+427|conceiving
+428|concentrate
+429|concession
+430|conch
+431|concoction
+432|concomitant
+433|concussion
+434|condoling
+435|condominium
+436|confederacy
+437|confide
+438|confided
+439|confiscating
+440|Confucianism
+441|conglomerate
+442|congruous
+443|conjure
+444|connubial
+445|conquered
+446|consecrating
+447|consecration
+448|considerate
+449|consolidation
+450|consoling
+451|Constantinople
+452|constriction
+453|contemplate
+454|continuing
+455|continuity
+456|contractual
+457|contracture
+458|contributory
+459|contumacious
+460|conventional
+461|convulse
+462|cooperative
+463|coordinate
+464|copyright
+465|Corinthian
+466|corkscrew
+467|coronation
+468|corpuscular
+469|correlate
+470|corrosive
+471|coruscate
+472|corvette
+473|cotangent
+474|Cotswold
+475|countenance
+476|counteract
+477|country mile
+478|coup
+479|courtier
+480|court-martial
+481|cowardice
+482|crackleware
+483|craniology
+484|creche
+485|credence
+486|crematory
+487|crenellated
+488|cretonne
+489|cribbage
+490|cribbing
+491|crinoline
+492|crippled
+493|crocodile
+494|crossbreed
+495|crostini
+496|crucifix
+497|crumpet
+498|cubical
+499|culpability
+500|culpable
+501|cumulus
+502|cuneiform
+503|curdle
+504|currant
+505|currency
+506|curtsy
+507|customer
+508|cyanogen
+509|cyanosis
+510|cygnet
+511|cylinder
+512|cyst
+513|da capo
+514|Dacron
+515|dactyl
+516|Dall sheep
+517|dallied
+518|danseuse
+519|dateable
+520|deafeningly
+521|deaf-mute
+522|debatable
+523|debridement
+524|debutante
+525|decathlon
+526|deception
+527|declamatory
+528|declaration
+529|decomposition
+530|decontaminate
+531|dedication
+532|defamatory
+533|defensible
+534|defiling
+535|definable
+536|deformity
+537|defraud
+538|deicer
+539|deification
+540|delegation
+541|delightful
+542|delimitation
+543|deluding
+544|deluged
+545|demeanor
+546|democratic
+547|demolish
+548|Demosthenes
+549|denizen
+550|Denmark
+551|dentition
+552|dependable
+553|depopulate
+554|deportation
+555|deprecate
+556|deputize
+557|dermatologist
+558|dermatomyositis
+559|descent
+560|descriptive
+561|design
+562|designate
+563|despicable
+564|despised
+565|dessertspoon
+566|destroyer
+567|deteriorate
+568|detonate
+569|detonation
+570|deutsche mark
+571|devastating
+572|devotee
+573|diabetic
+574|diabolic
+575|dialysis
+576|diathermic
+577|dictum
+578|diffidence
+579|dignitary
+580|dilettante
+581|diligence
+582|diphthong
+583|direly
+584|dirge
+585|dirigible
+586|disallowance
+587|disappearance
+588|disbarment
+589|disbelief
+590|disclaimer
+591|disclose
+592|discordant
+593|discountenance
+594|discretionary
+595|disembody
+596|dishabille
+597|disinherit
+598|disintegrate
+599|dismantle
+600|disparage
+601|dispersal
+602|disproportion
+603|dissatisfaction
+604|dissatisfied
+605|dissimilitude
+606|distaff
+607|distinctive
+608|distributor
+609|divalent
+610|diversion
+611|dividend
+612|divulge
+613|dodecahedron
+614|dolcetto
+615|doldrums
+616|doleful
+617|dominance
+618|dominant
+619|dormouse
+620|dorsal
+621|double entendre
+622|dovetail
+623|dowager
+624|doxology
+625|drainage
+626|driblet
+627|dromedary
+628|drudgery
+629|dual-purpose
+630|duenna
+631|duffel
+632|dumpiness
+633|dumpling
+634|duplication
+635|dusty
+636|dying
+637|dyspeptic
+638|dysprosium
+639|easel
+640|easement
+641|eavesdrop
+642|echelon
+643|economical
+644|ecumenical
+645|eczema
+646|edification
+647|edifice
+648|educationally
+649|educative
+650|effectuate
+651|effectuation
+652|efflorescent
+653|effluent
+654|egoism
+655|eider
+656|Eifel
+657|El Dorado
+658|elaborate
+659|Elba
+660|electrification
+661|electrified
+662|elemental
+663|elicitor
+664|elide
+665|elliptical
+666|elocution
+667|eluding
+668|elusion
+669|embalmer
+670|embankment
+671|embezzle
+672|embosom
+673|embower
+674|emend
+675|eminent
+676|emir
+677|empathic
+678|employer
+679|emulsification
+680|encampment
+681|encomiast
+682|encomium
+683|encyclopedic
+684|encyst
+685|endorsement
+686|enervation
+687|enfranchised
+688|English ivy
+689|enigmatically
+690|Eniwetok
+691|ennobling
+692|ensign
+693|ensilage
+694|entelechy
+695|entente
+696|enthrall
+697|entomologist
+698|entree
+699|entrench
+700|envenom
+701|enviable
+702|epaulet
+703|ephedrine
+704|epidermis
+705|epidermoid
+706|epode
+707|eponym
+708|equatorial
+709|equerry
+710|equipoise
+711|Eros
+712|erose
+713|erstwhile
+714|eruct
+715|Eskimo
+716|esophagus
+717|estrange
+718|etherization
+719|etherize
+720|etiology
+721|etiquette
+722|eulogist
+723|Euphrates
+724|euphuism
+725|evaluate
+726|evert
+727|evisceration
+728|evocation
+729|exactitude
+730|excavation
+731|exceed
+732|exchangeable
+733|excluding
+734|exculpation
+735|excursion
+736|exegesis
+737|exemplar
+738|exhaustive
+739|exhibit
+740|existent
+741|existentialism
+742|expansion
+743|expedient
+744|experimental
+745|explication
+746|explicit
+747|export
+748|exportation
+749|expressive
+750|exterminator
+751|extravagance
+752|exuberant
+753|eyesore
+754|facile
+755|fade-out
+756|fairy-tale
+757|fallow
+758|familial
+759|familiarize
+760|fanfare
+761|farinaceous
+762|fascinating
+763|fatuous
+764|fauces
+765|favoritism
+766|fawn
+767|featured
+768|febrifuge
+769|feebleminded
+770|ferrule
+771|fester
+772|festival
+773|feud
+774|feudal
+775|fiberglass
+776|Fibonacci
+777|fiddlestick
+778|fiesta
+779|fighting chance
+780|filbert
+781|filch
+782|filterability
+783|financial
+784|finial
+785|fiscally
+786|fistula
+787|fistulous
+788|fizzling
+789|flagging
+790|flagon
+791|flamboyant
+792|flare
+793|flavanone
+794|fleche
+795|flickeringly
+796|flip-flop
+797|flippancy
+798|floatplane
+799|flocculus
+800|florescent
+801|floret
+802|flouncing
+803|floundered
+804|fluency
+805|fluoridation
+806|fluxion
+807|flycatcher
+808|focaccia
+809|focused
+810|foliage
+811|foliate
+812|folliculitis
+813|forbidden
+814|forecastle
+815|foreclose
+816|forehead
+817|foreign
+818|foreshadow
+819|foresight
+820|forewarn
+821|foreword
+822|forlorn
+823|formidable
+824|forthcoming
+825|foundry
+826|fracas
+827|fractal
+828|frailty
+829|frappe
+830|fraternal
+831|free will
+832|freeborn
+833|free-form
+834|freighter
+835|Frenchman
+836|fretwork
+837|friability
+838|frijole
+839|frothier
+840|frugality
+841|fruitful
+842|fugue
+843|fuliginous
+844|full circle
+845|full-court press
+846|fulminating
+847|fundamentalism
+848|furbish
+849|furioso
+850|further
+851|furtherance
+852|futility
+853|gadabout
+854|gadding
+855|gainsaid
+856|galleon
+857|galvanize
+858|gamboge
+859|gametophyte
+860|gamin
+861|gangrenous
+862|garbling
+863|garcon
+864|garnish
+865|gaseous
+866|gas-operated
+867|gauntly
+868|gauze
+869|gearshift
+870|gearwheel
+871|gemination
+872|Gemini
+873|generalize
+874|geneticist
+875|Geneva
+876|gentility
+877|geography
+878|geological
+879|geotropism
+880|gerontologist
+881|Gethsemane
+882|ghoulish
+883|Gila monster
+884|gingham
+885|ginkgo
+886|glabrous
+887|glancing
+888|glaucous
+889|glazed
+890|glimpse
+891|glissade
+892|glockenspiel
+893|gloomily
+894|Gloucestershire
+895|glutinous
+896|glutton
+897|goatee
+898|godhead
+899|goldenrod
+900|good-humored
+901|gorgon
+902|Gorgonzola
+903|goulash
+904|gourd
+905|gracious
+906|grackle
+907|grammatical
+908|granite
+909|graphite
+910|gratis
+911|gravitate
+912|greasepaint
+913|Gregorian chant
+914|grenadine
+915|Grendel
+916|grimalkin
+917|grimmer
+918|gristly
+919|grounder
+920|grubstake
+921|grudge
+922|guarantee
+923|guesswork
+924|guest
+925|guinea
+926|guise
+927|gumshoe
+928|gurgling
+929|gurney
+930|guttural
+931|gyratory
+932|gyrocompass
+933|habituate
+934|haggard
+935|Haiti
+936|halberd
+937|half bath
+938|halitosis
+939|hallelujah
+940|hame
+941|handicraftsman
+942|hangar
+943|hanger
+944|hapten
+945|harmfully
+946|harpy
+947|harquebus
+948|haunted
+949|hauteur
+950|hayseed
+951|headmaster
+952|headquarters
+953|heartbroken
+954|heather
+955|heaved
+956|heckling
+957|hegemony
+958|heliport
+959|helium
+960|hematopoiesis
+961|hemisphere
+962|hemorrhage
+963|hennery
+964|herbarium
+965|herbivorous
+966|hereupon
+967|heritability
+968|heroism
+969|hessian
+970|heterodox
+971|heyday
+972|hiatus
+973|hibachi
+974|hierarchical
+975|high-strung
+976|hindrance
+977|Hispaniola
+978|histamine
+979|hoarfrost
+980|hodgepodge
+981|holograph
+982|Holstein
+983|homicidal
+984|homophony
+985|homunculus
+986|honorarium
+987|Hoosier
+988|horologist
+989|hospitalization
+990|hourglass
+991|hoyden
+992|huisache
+993|hullabaloo
+994|humerus
+995|hummus
+996|humorous
+997|humus
+998|hunt-and-peck
+999|hurtle
+1000|hybridization
+1001|hydrofluoric acid
+1002|hydrogen
+1003|hydrophyte
+1004|hygrometer
+1005|hypertrophy
+1006|hypocritically
+1007|hypodermic
+1008|iambic
+1009|icon
+1010|idolatrous
+1011|ignominy
+1012|illegible
+1013|illuminating
+1014|imaginable
+1015|imaginary
+1016|imbrication
+1017|imbroglio
+1018|Immanuel
+1019|immaterial
+1020|immigration
+1021|imminence
+1022|immortality
+1023|impassable
+1024|impassioned
+1025|impedimenta
+1026|imperfection
+1027|impersonate
+1028|impious
+1029|imponderable
+1030|impostor
+1031|imposture
+1032|impregnable
+1033|improbability
+1034|imprudent
+1035|in absentia
+1036|in extremis
+1037|inadmissible
+1038|inaudible
+1039|inaugural
+1040|incapacitate
+1041|incertitude
+1042|incessancy
+1043|incipient
+1044|incommunicado
+1045|incongruous
+1046|inconsequent
+1047|incorruptible
+1048|increase
+1049|inculcate
+1050|inculpate
+1051|indecipherable
+1052|indecision
+1053|indelible
+1054|indelicacy
+1055|indestructible
+1056|indeterminate
+1057|indicia
+1058|indifference
+1059|indiscriminate
+1060|indispensable
+1061|indoctrinate
+1062|inductee
+1063|industrialize
+1064|inefficacious
+1065|inequitable
+1066|inexpedient
+1067|infamy
+1068|infancy
+1069|infelicitous
+1070|infidelity
+1071|inflammable
+1072|influential
+1073|infringement
+1074|inglorious
+1075|ingot
+1076|inhalant
+1077|inhospitality
+1078|inhuman
+1079|injection
+1080|injudicious
+1081|inlay
+1082|inlet
+1083|inquest
+1084|inquietude
+1085|insatiate
+1086|insectivore
+1087|insertion
+1088|insistence
+1089|insole
+1090|inspiration
+1091|instigation
+1092|instigator
+1093|insubordinate
+1094|insurable
+1095|intangible
+1096|integer
+1097|intemperate
+1098|intentionally
+1099|intercede
+1100|interdisciplinary
+1101|interlining
+1102|interpretive
+1103|interspersion
+1104|interstate
+1105|intimation
+1106|intimidate
+1107|intransitive
+1108|intrastate
+1109|introspective
+1110|invalidate
+1111|inventory
+1112|invigorating
+1113|involuntarily
+1114|ionize
+1115|irksome
+1116|irreducibility
+1117|irresolute
+1118|irritant
+1119|isometric
+1120|isomorphic
+1121|italicizing
+1122|jackstraw
+1123|Jacobin
+1124|jaguarundi
+1125|jealousy
+1126|Jericho
+1127|jerkily
+1128|jeweled
+1129|jocundity
+1130|Jonah
+1131|joviality
+1132|Jovian
+1133|judicious
+1134|juggernaut
+1135|junction
+1136|juncture
+1137|justice
+1138|justifiable
+1139|karakul
+1140|karat
+1141|keyed
+1142|Kilimanjaro
+1143|kindhearted
+1144|king’s ransom
+1145|kingpin
+1146|kinkajou
+1147|klystron
+1148|knapsack
+1149|knoll
+1150|kowtow
+1151|Krakatau
+1152|lacerating
+1153|lacteal
+1154|lagoon
+1155|laissez-faire
+1156|laminate
+1157|landholder
+1158|languishingly
+1159|languorous
+1160|lapsing
+1161|lariat
+1162|laryngitis
+1163|larynx
+1164|Las Piedras
+1165|laudanum
+1166|laudatory
+1167|lavatory
+1168|lazar
+1169|lean-tos
+1170|legality
+1171|legible
+1172|legion
+1173|leisure
+1174|leitmotif
+1175|lento
+1176|lessor
+1177|leveling
+1178|lexicon
+1179|liability
+1180|liberator
+1181|Liberia
+1182|Liechtenstein
+1183|liege
+1184|ligature
+1185|limitless
+1186|line-item veto
+1187|linen
+1188|linseed
+1189|lintel
+1190|lithographer
+1191|livable
+1192|loamy
+1193|loathe
+1194|localize
+1195|lodestar
+1196|lodestone
+1197|logistical
+1198|longitudinal
+1199|long-range
+1200|lorgnette
+1201|lorica
+1202|loutish
+1203|louver
+1204|low-grade
+1205|lucent
+1206|Lucerne
+1207|lullaby
+1208|lumbago
+1209|lunatic
+1210|luncheon
+1211|lutefisk
+1212|lutetium
+1213|luxurious
+1214|macaque
+1215|mackerel
+1216|madrigal
+1217|maelstrom
+1218|magnesium
+1219|magpie
+1220|maharaja
+1221|majolica
+1222|Malaya
+1223|malignancy
+1224|mandarin
+1225|manicurist
+1226|mannequin
+1227|mannerism
+1228|mantle
+1229|marinade
+1230|marmot
+1231|marshmallow
+1232|marsupial
+1233|masculine
+1234|masseur
+1235|matador
+1236|matelote
+1237|maternity
+1238|matrimony
+1239|matrix
+1240|maudlin
+1241|maunder
+1242|measly
+1243|medallion
+1244|medication
+1245|medullary
+1246|melioration
+1247|meliorator
+1248|membrane
+1249|Memphis
+1250|mensurability
+1251|mercerize
+1252|mercurous
+1253|merriment
+1254|merry-go-round
+1255|message
+1256|messaline
+1257|metalliferous
+1258|metallurgical
+1259|metatarsus
+1260|methodical
+1261|methodism
+1262|mettle
+1263|Mexican
+1264|microcosm
+1265|middle ground
+1266|midshipman
+1267|migrant
+1268|militaristic
+1269|millefiori
+1270|millennium
+1271|millstream
+1272|minion
+1273|minuend
+1274|minuet
+1275|misappropriation
+1276|misbegotten
+1277|miscellaneous
+1278|misdeal
+1279|misgiving
+1280|mispronounce
+1281|mistaking
+1282|misusing
+1283|mnemonic
+1284|modal
+1285|modicum
+1286|modifiable
+1287|mogul
+1288|mohair
+1289|momentous
+1290|monetarily
+1291|monism
+1292|monodical
+1293|monomania
+1294|monotonous
+1295|Monte Carlo
+1296|Monterey
+1297|montmorillonite
+1298|moonlight
+1299|morality
+1300|moribundity
+1301|morphologic
+1302|mortifying
+1303|moth-eaten
+1304|motley
+1305|moulage
+1306|Mount Vernon
+1307|muddle
+1308|mugho pine
+1309|mulish
+1310|mullet
+1311|multiplication
+1312|municipality
+1313|murmur
+1314|murrain
+1315|mustache
+1316|mutilator
+1317|mutineer
+1318|mycelium
+1319|mycologist
+1320|mysticism
+1321|naivete
+1322|Naples
+1323|Napoleon
+1324|narwhal
+1325|nasal
+1326|natatory
+1327|naturalistic
+1328|nautically
+1329|nautilus
+1330|Neanderthal
+1331|neap tide
+1332|nebulous
+1333|necessarily
+1334|nectarine
+1335|nectarous
+1336|negativism
+1337|negotiator
+1338|nepenthe
+1339|nephew
+1340|nestling
+1341|nether
+1342|neurology
+1343|neutron
+1344|Nevada
+1345|nibbling
+1346|Nichrome
+1347|Nigeria
+1348|nihilistic
+1349|Nobel Prize
+1350|nodule
+1351|nominative
+1352|noncommittal
+1353|nonconductor
+1354|nonplussed
+1355|nonproductive
+1356|normalize
+1357|Norwegian
+1358|notarize
+1359|notary public
+1360|notifying
+1361|novella
+1362|novelty
+1363|nuclear
+1364|nuclei
+1365|nullifying
+1366|numerous
+1367|numismatic
+1368|nuthatch
+1369|nymph
+1370|Oahu
+1371|obeisance
+1372|objectify
+1373|obligingly
+1374|oblique
+1375|oboist
+1376|obscene
+1377|observatory
+1378|obstetrician
+1379|obtrude
+1380|Occident
+1381|occurred
+1382|octagonal
+1383|oculist
+1384|oenophile
+1385|officiate
+1386|ogre
+1387|ohmic
+1388|old-timer
+1389|olla
+1390|olympiad
+1391|omitted
+1392|omnibus
+1393|one-sided
+1394|onward
+1395|onyx
+1396|open-minded
+1397|ophthalmological
+1398|opportunism
+1399|opprobrium
+1400|opulent
+1401|oracle
+1402|orbiculate
+1403|ordinate
+1404|orientation
+1405|orifice
+1406|ornamentation
+1407|orthodoxy
+1408|oscillator
+1409|ostentatious
+1410|outlandish
+1411|outpatient
+1412|outspoken
+1413|ovation
+1414|oviparous
+1415|oxford
+1416|oxidation
+1417|oysters
+1418|pabulum
+1419|pachisi
+1420|packaging
+1421|pageantry
+1422|page-turner
+1423|paladin
+1424|palaestra
+1425|paleontology
+1426|pallid
+1427|pallor
+1428|palter
+1429|paltriness
+1430|panache
+1431|pancreatic
+1432|panegyric
+1433|pantomimist
+1434|paprika
+1435|paraffin
+1436|paragon
+1437|paralyze
+1438|paraphernalia
+1439|parathyroid
+1440|parenthetical
+1441|Parian
+1442|paroled
+1443|parsing
+1444|parsley
+1445|parti pris
+1446|participation
+1447|pashmina
+1448|passementerie
+1449|pass-through
+1450|paternalism
+1451|patina
+1452|patriotism
+1453|patristic
+1454|paulownia
+1455|pearlescent
+1456|peculiarity
+1457|pediatrician
+1458|Pegasus
+1459|pellitory
+1460|pemmican
+1461|pendulum
+1462|Penelope
+1463|penitentiary
+1464|penknife
+1465|penologist
+1466|penology
+1467|penultimate
+1468|peperomia
+1469|pepsin
+1470|perceive
+1471|percentage
+1472|percolator
+1473|perfective
+1474|pergola
+1475|periosteal
+1476|periosteum
+1477|peritonitis
+1478|permeation
+1479|perpetrator
+1480|persiflage
+1481|persimmon
+1482|personification
+1483|persuasion
+1484|perusing
+1485|peseta
+1486|pesthouse
+1487|pestiferous
+1488|petits fours
+1489|pettishness
+1490|phantasmagoric
+1491|phantasmal
+1492|pharyngitis
+1493|pharynx
+1494|philanthropist
+1495|philosophizer
+1496|phonetically
+1497|phosphorescent
+1498|phosphoric
+1499|photon
+1500|pickerel
+1501|picot
+1502|pictography
+1503|pietism
+1504|pilloried
+1505|pinch-hit
+1506|pincushion
+1507|pinochle
+1508|pique
+1509|pitchblende
+1510|pituitary gland
+1511|pivot
+1512|placenta
+1513|plaintiff
+1514|plaintive
+1515|plaque
+1516|platitudinous
+1517|Plato
+1518|play-off
+1519|plebiscite
+1520|plectrum
+1521|pleonasm
+1522|pleurisy
+1523|plover
+1524|plumose
+1525|Pluto
+1526|plutocracy
+1527|Pocahontas
+1528|pocket veto
+1529|pocket-sized
+1530|poetically
+1531|pointillism
+1532|poisonous
+1533|Polaris
+1534|polyethylene
+1535|polyphonic
+1536|pompano
+1537|Pompeii
+1538|pons asinorum
+1539|pontificate
+1540|portent
+1541|portentous
+1542|portrayal
+1543|possessively
+1544|postern
+1545|postgraduate
+1546|postulate
+1547|potency
+1548|poultice
+1549|powerless
+1550|praiseworthy
+1551|preamble
+1552|precession
+1553|preclusion
+1554|predatory
+1555|predecessor
+1556|predictable
+1557|preempt
+1558|preference
+1559|prehistorically
+1560|premeditator
+1561|premier
+1562|presage
+1563|prescriptive
+1564|presidential
+1565|presiding
+1566|presumptuous
+1567|presuppose
+1568|pretzel
+1569|prevail
+1570|primal
+1571|primarily
+1572|princeliness
+1573|princely
+1574|prismatic
+1575|proceed
+1576|procreative
+1577|professed
+1578|professedly
+1579|profundity
+1580|prognostication
+1581|Promethean
+1582|promptitude
+1583|propagandize
+1584|propagate
+1585|prophesy
+1586|prophet
+1587|propositus
+1588|prorogation
+1589|prorogue
+1590|prosy
+1591|protagonist
+1592|protestation
+1593|protrude
+1594|providential
+1595|provokingly
+1596|proxemics
+1597|pruning
+1598|psychedelic
+1599|psychiatric
+1600|psychoneurotic
+1601|psychopathic
+1602|pteridine
+1603|publican
+1604|Puerto Rico
+1605|puggaree
+1606|pulverize
+1607|punctuation
+1608|pupa
+1609|purification
+1610|purposefully
+1611|purveyor
+1612|pyrotechnics
+1613|Pythagoras
+1614|quadruplet
+1615|quandary
+1616|quarterly
+1617|quelled
+1618|quidnunc
+1619|quinine
+1620|quintal
+1621|quiver
+1622|quotidian
+1623|quotient
+1624|radicalism
+1625|radio frequency
+1626|radioactive
+1627|rain gauge
+1628|rambling
+1629|ramshackle
+1630|ransom
+1631|rapturous
+1632|ratchet
+1633|rationalization
+1634|ravioli
+1635|reagent
+1636|rebellious
+1637|recamier
+1638|recantation
+1639|recapitulate
+1640|reciprocation
+1641|reciprocity
+1642|recognizable
+1643|reconciliation
+1644|recoverable
+1645|recuperative
+1646|recur
+1647|redeployment
+1648|redoubtable
+1649|reel-to-reel
+1650|refinery
+1651|reformatory
+1652|refugee
+1653|refulgence
+1654|regaling
+1655|regally
+1656|regimentation
+1657|regularity
+1658|reign
+1659|reimburse
+1660|rejection
+1661|relationship
+1662|relevancy
+1663|relieving
+1664|religion
+1665|reminiscing
+1666|remorsefully
+1667|rendezvous
+1668|renouncement
+1669|repeatedly
+1670|repetitious
+1671|repose
+1672|repressible
+1673|repression
+1674|reproductive
+1675|repugnant
+1676|requiring
+1677|requisite
+1678|resemblance
+1679|residence
+1680|resinous
+1681|resonance
+1682|respiration
+1683|responsively
+1684|restaurant
+1685|restrictive
+1686|retainer
+1687|retinal
+1688|retinue
+1689|retractile
+1690|retrogress
+1691|reveille
+1692|reverent
+1693|Reykjavik
+1694|rhapsodic
+1695|rheumatism
+1696|rhododendron
+1697|rhyme
+1698|riffraff
+1699|rigmarole
+1700|risible
+1701|roadbed
+1702|Rock Cornish hen
+1703|rockbound
+1704|roisterous
+1705|romanticism
+1706|Romany
+1707|rose of Sharon
+1708|rotogravure
+1709|rouging
+1710|roulette
+1711|routing
+1712|roving
+1713|Rubicon
+1714|rudimentary
+1715|rueful
+1716|ruminate
+1717|rupee
+1718|rupture
+1719|rustling
+1720|sack race
+1721|sackcloth
+1722|sacrosanct
+1723|safe-deposit box
+1724|sailcloth
+1725|salami
+1726|salaried
+1727|salivation
+1728|salubrity
+1729|salutarily
+1730|Samaria
+1731|Samaritan
+1732|sanctified
+1733|sandpaper
+1734|sandstone
+1735|Sanskrit
+1736|sapwood
+1737|Saracen
+1738|sartorial
+1739|sashay
+1740|satinwood
+1741|saturating
+1742|saunterer
+1743|saurian
+1744|savoir faire
+1745|savor
+1746|say-so
+1747|scabbard
+1748|scallion
+1749|scansion
+1750|scarified
+1751|scenarist
+1752|scenery
+1753|schismatic
+1754|scion
+1755|scissors
+1756|scornful
+1757|scrabbling
+1758|scratchy
+1759|scrawly
+1760|scrupulous
+1761|scrutinize
+1762|scurrility
+1763|seasonable
+1764|secessionist
+1765|seclude
+1766|secrete
+1767|secularism
+1768|secularization
+1769|seditious
+1770|sedum
+1771|seethe
+1772|seigneury
+1773|seismographic
+1774|selenium
+1775|self-centered
+1776|senatorial
+1777|sensei
+1778|sentential
+1779|separately
+1780|sequence
+1781|serene
+1782|serological
+1783|serologist
+1784|serviceable
+1785|serviette
+1786|severest
+1787|sgraffito
+1788|shabbiness
+1789|shah
+1790|shameless
+1791|shearing
+1792|shekel
+1793|sheriff
+1794|Sherpa
+1795|Shinto
+1796|shivery
+1797|shoal
+1798|shoulder
+1799|shrapnel
+1800|shriveling
+1801|shroud
+1802|Sicilian
+1803|Sicily
+1804|siege
+1805|signalize
+1806|signet
+1807|silver plate
+1808|silversmith
+1809|simpering
+1810|simulator
+1811|simulcast
+1812|singed
+1813|sinology
+1814|sirocco
+1815|sisal
+1816|sitzmark
+1817|skimpily
+1818|skullcap
+1819|sky-high
+1820|slaphappy
+1821|slavish
+1822|slaying
+1823|slenderness
+1824|slinking
+1825|sluggard
+1826|smithereens
+1827|smithy
+1828|smuggler
+1829|snorkel
+1830|snuggling
+1831|snugly
+1832|socialism
+1833|sodden
+1834|solder
+1835|soldier
+1836|solicitude
+1837|solidarity
+1838|Solomon
+1839|solon
+1840|sombrero
+1841|somnambulistic
+1842|somniferous
+1843|soothingly
+1844|sortie
+1845|sous
+1846|sousaphone
+1847|sovietism
+1848|spasmodic
+1849|spearhead
+1850|specificity
+1851|spectroscopically
+1852|speedometer
+1853|sphagnum
+1854|sphere
+1855|spikelet
+1856|spikenard
+1857|spinneret
+1858|splurge
+1859|splutter
+1860|spongy
+1861|sprawl
+1862|sprocket
+1863|sprout
+1864|spurred
+1865|squander
+1866|stadtholder
+1867|stagehand
+1868|staid
+1869|staking
+1870|stalactite
+1871|stanchion
+1872|starvation
+1873|stationary
+1874|stationery
+1875|statutory
+1876|staunch
+1877|stenciling
+1878|stenographer
+1879|stereotype
+1880|stichomythia
+1881|stickiness
+1882|stimulate
+1883|stippling
+1884|stipulate
+1885|stoma
+1886|strangler
+1887|stratospheric
+1888|streptococcus
+1889|streptomycin
+1890|strife
+1891|striving
+1892|struggling
+1893|stultifying
+1894|stumble
+1895|stuporous
+1896|sturdiness
+1897|stymieing
+1898|styptic
+1899|subdivision
+1900|subdue
+1901|sublease
+1902|sublet
+1903|submerse
+1904|subornation
+1905|subpoena
+1906|subservient
+1907|substantiate
+1908|substantiation
+1909|subtract
+1910|subtraction
+1911|succession
+1912|successive
+1913|Sudanese
+1914|suddenly
+1915|suffocate
+1916|suffocating
+1917|suggestible
+1918|sulfide
+1919|sultanate
+1920|summa cum laude
+1921|summing
+1922|summit
+1923|sunken
+1924|supercilious
+1925|superiority
+1926|superlative
+1927|supervene
+1928|supplementary
+1929|supportable
+1930|supposable
+1931|supra
+1932|supremacy
+1933|surcease
+1934|surge
+1935|surtax
+1936|surveillance
+1937|suspension
+1938|suspensory
+1939|svedberg
+1940|swarthy
+1941|swashbuckler
+1942|sweetening
+1943|swindler
+1944|syllabify
+1945|symbiosis
+1946|sympathize
+1947|synchronous
+1948|syncopate
+1949|synod
+1950|synthesizing
+1951|systolic
+1952|syzygy
+1953|Tabasco
+1954|tabloid
+1955|tactical
+1956|Tallahatchie
+1957|tambourine
+1958|tangelo
+1959|tariff
+1960|tarpaulin
+1961|tasteful
+1962|taut
+1963|tawnier
+1964|T-ball
+1965|teakettle
+1966|technique
+1967|technocracy
+1968|telegraphy
+1969|telium
+1970|tellurium
+1971|temporal
+1972|tenderloin
+1973|tendon
+1974|tentacle
+1975|tentative
+1976|teraph
+1977|terminology
+1978|terminus
+1979|terrific
+1980|testatrix
+1981|Teutonic
+1982|theatrical
+1983|theism
+1984|theorize
+1985|theriaca
+1986|thermically
+1987|thermodynamic
+1988|thief
+1989|threader
+1990|threaten
+1991|threonine
+1992|throe
+1993|thrombotic
+1994|thymol
+1995|thymus
+1996|thyrsus
+1997|tight-knit
+1998|tilde
+1999|tinner
+2000|tiramisu
+2001|tiresome
+2002|titrate
+2003|tocopherol
+2004|tocsin
+2005|togging
+2006|tombstone
+2007|tonsillitis
+2008|tonsorial
+2009|top dollar
+2010|top-heavy
+2011|Top-Sider
+2012|torpid
+2013|torture
+2014|tour de force
+2015|toxemia
+2016|tragically
+2017|tragicomedy
+2018|transatlantic
+2019|transcend
+2020|transfixion
+2021|transition
+2022|transitive
+2023|transmute
+2024|transoceanic
+2025|trapezium
+2026|travoises
+2027|treachery
+2028|treacle
+2029|trefoil
+2030|trekking
+2031|trestle
+2032|trichinosis
+2033|triglyceride
+2034|trigonometry
+2035|tripartite
+2036|tritium
+2037|trodden
+2038|troglodyte
+2039|troubadour
+2040|truculent
+2041|trustee
+2042|T-shirt
+2043|Tsimshian
+2044|tuberculosis
+2045|tuberculous
+2046|tulle
+2047|tupelo
+2048|Turkish
+2049|tusche
+2050|tussle
+2051|tussock
+2052|twinging
+2053|tympanic
+2054|typography
+2055|tyrannical
+2056|ulcerate
+2057|umbilicus
+2058|umbra
+2059|unbridled
+2060|uncalled-for
+2061|uncounted
+2062|uncouple
+2063|undergo
+2064|undersecretary
+2065|undersigned
+2066|undesirable
+2067|undisciplined
+2068|unemployment
+2069|unequal
+2070|unfeigned
+2071|ungracious
+2072|unification
+2073|unified
+2074|unilocular
+2075|unitarian
+2076|Unknown Soldier
+2077|unmerciful
+2078|unmistakable
+2079|unpretentious
+2080|unremitting
+2081|unveil
+2082|upheaval
+2083|upside down
+2084|uredospore
+2085|uvula
+2086|uxorious
+2087|vacuous
+2088|vacuum
+2089|valetudinarian
+2090|valiant
+2091|Valois
+2092|valvular
+2093|vaporize
+2094|vaporous
+2095|variola
+2096|vauntingly
+2097|vectorial
+2098|velocipede
+2099|velocity
+2100|veneration
+2101|venery
+2102|ventilator
+2103|verbatim
+2104|verbena
+2105|verdure
+2106|verified
+2107|vermicelli
+2108|vernacular
+2109|vernal
+2110|vertigo
+2111|vestryman
+2112|vesture
+2113|viaduct
+2114|vial
+2115|vice versa
+2116|vice-consul
+2117|vichyssoise
+2118|Vienna
+2119|Viennese
+2120|vinyl
+2121|viol
+2122|Virginia
+2123|viscacha
+2124|viscera
+2125|vocable
+2126|voidable
+2127|voile
+2128|volubility
+2129|voluble
+2130|votary
+2131|vulgarism
+2132|vulturine
+2133|waddling
+2134|wainscot
+2135|wainwright
+2136|walk-up
+2137|wallaby
+2138|wangling
+2139|warmhearted
+2140|wary
+2141|waspish
+2142|wassail
+2143|water level
+2144|wattage
+2145|waybill
+2146|wayfarer
+2147|waylaid
+2148|weather-beaten
+2149|weatherman
+2150|weigela
+2151|weigh
+2152|Wellington
+2153|well-known
+2154|Wernicke’s area
+2155|wheelbarrow
+2156|whereof
+2157|whereupon
+2158|wherry
+2159|whey
+2160|whimsicality
+2161|whimsy
+2162|whirring
+2163|whorl
+2164|whosoever
+2165|wild-goose chase
+2166|will-o’-the-wisp
+2167|windlass
+2168|windmill
+2169|wingspread
+2170|wiry
+2171|withdrawal
+2172|witticism
+2173|wobble
+2174|woebegone
+2175|woodchuck
+2176|woolliness
+2177|worldliness
+2178|worldling
+2179|worshipping
+2180|worsted
+2181|wrathful
+2182|wreak
+2183|wringing
+2184|wrinkle
+2185|wrought
+2186|wryly
+2187|xeric
+2188|xylophone
+2189|yearly
+2190|yodeling
+2191|yoga
+2192|ytterbium
+2193|Yucatan
+2194|zebu
+2195|zenith
+2196|zircon
+2197|zirconium
+2198|zooxanthella
+2199|zucchetto
+2200|Zulu
+`.trim();
+
+
+    /*
+      ============================================================
+      PARSE WORD LIST
+      ============================================================
+    */
+
+    const WORDS = RAW_WORDS
+      .split("\n")
+      .map(line => {
+        const separator = line.indexOf("|");
+
+        return {
+          number: Number(line.slice(0, separator)),
+          word: line.slice(separator + 1)
+        };
+      })
+      .filter(item => item.word.length > 0);
+
+
+    /*
+      ============================================================
+      MODES
+      ============================================================
+    */
+
+    const MODE_NAMES = {
+      all: "Entire list",
+      capitals: "Only capitals",
+      spaces: "Only spaces",
+      hyphens: "Only hyphens",
+      p1p2: "Pages 1 + 2",
+      p3p4: "Pages 3 + 4",
+      p5p6: "Pages 5 + 6",
+      p7p8: "Pages 7 + 8",
+      p9p10: "Pages 9 + 10",
+      p11: "Page 11"
+    };
+
+
+    /*
+      ============================================================
+      STORAGE
+      ============================================================
+    */
+
+    const STORAGE_KEY = "spell-bowl-stats-v2";
+    const MODE_KEY = "spell-bowl-mode-v2";
+
+
+    /*
+      ============================================================
+      ELEMENTS
+      ============================================================
+    */
+
+    const modeSelect =
+      document.getElementById("modeSelect");
+
+    const newRoundBtn =
+      document.getElementById("newRoundBtn");
+
+    const resetBtn =
+      document.getElementById("resetBtn");
+
+    const hearBtn =
+      document.getElementById("hearBtn");
+
+    const answerForm =
+      document.getElementById("answerForm");
+
+    const spellInput =
+      document.getElementById("spellInput");
+
+    const checkBtn =
+      document.getElementById("checkBtn");
+
+    const feedback =
+      document.getElementById("feedback");
+
+    const revealedAnswer =
+      document.getElementById("revealedAnswer");
+
+    const revealedAnswerWord =
+      document.getElementById("revealedAnswerWord");
+
+    const modeLabel =
+      document.getElementById("modeLabel");
+
+    const modeCount =
+      document.getElementById("modeCount");
+
+    const progressText =
+      document.getElementById("progressText");
+
+    const wordNumberText =
+      document.getElementById("wordNumberText");
+
+    const progressBar =
+      document.getElementById("progressBar");
+
+    const correctStat =
+      document.getElementById("correctStat");
+
+    const attemptsStat =
+      document.getElementById("attemptsStat");
+
+    const accuracyStat =
+      document.getElementById("accuracyStat");
+
+    const streakStat =
+      document.getElementById("streakStat");
+
+    const bestStreakStat =
+      document.getElementById("bestStreakStat");
+
+
+    /*
+      ============================================================
+      STATE
+      ============================================================
+    */
+
+    let stats = loadStats();
+
+    let currentMode =
+      localStorage.getItem(MODE_KEY) || "all";
+
+    if (!MODE_NAMES[currentMode]) {
+      currentMode = "all";
+    }
+
+    let currentPool = [];
+    let deck = [];
+    let deckIndex = 0;
+    let currentWord = null;
+
+    /*
+      True after the first actual wrong answer for the
+      current word. In this state, pressing Enter moves
+      to the next word.
+    */
+    let awaitingContinue = false;
+
+    /*
+      Prevent duplicate wrong answers from creating
+      additional attempts.
+    */
+    let wrongAnswersForCurrentWord = new Set();
+
+
+    /*
+      ============================================================
+      LOAD / SAVE STATS
+      ============================================================
+    */
+
+    function loadStats() {
+      try {
+        const stored =
+          JSON.parse(
+            localStorage.getItem(STORAGE_KEY)
+          );
+
+        if (
+          stored &&
+          Number.isFinite(stored.correct) &&
+          Number.isFinite(stored.attempts) &&
+          Number.isFinite(stored.streak) &&
+          Number.isFinite(stored.bestStreak)
+        ) {
+          return stored;
+        }
+
+      } catch (error) {
+        console.warn(
+          "Unable to load saved statistics.",
+          error
+        );
+      }
+
+      return {
+        correct: 0,
+        attempts: 0,
+        streak: 0,
+        bestStreak: 0
+      };
+    }
+
+    function saveStats() {
+      localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify(stats)
+      );
+    }
+
+
+    /*
+      ============================================================
+      STATS DISPLAY
+      ============================================================
+    */
+
+    function updateStats() {
+      const accuracy =
+        stats.attempts === 0
+          ? 0
+          : (stats.correct / stats.attempts) * 100;
+
+      correctStat.textContent =
+        String(stats.correct);
+
+      attemptsStat.textContent =
+        String(stats.attempts);
+
+      accuracyStat.textContent =
+        `${accuracy.toFixed(1)}%`;
+
+      streakStat.textContent =
+        String(stats.streak);
+
+      bestStreakStat.textContent =
+        String(stats.bestStreak);
+    }
+
+
+    /*
+      ============================================================
+      MODE FILTERING
+      ============================================================
+    */
+
+    function getPool(mode) {
+      switch (mode) {
+
+        case "capitals":
+          return WORDS.filter(
+            ({ word }) => /[A-Z]/.test(word)
+          );
+
+        case "spaces":
+          return WORDS.filter(
+            ({ word }) => word.includes(" ")
+          );
+
+        case "hyphens":
+          return WORDS.filter(
+            ({ word }) => word.includes("-")
+          );
+
+        case "p1p2":
+          return WORDS.filter(
+            ({ number }) =>
+              number >= 1 &&
+              number <= 400
+          );
+
+        case "p3p4":
+          return WORDS.filter(
+            ({ number }) =>
+              number >= 401 &&
+              number <= 800
+          );
+
+        case "p5p6":
+          return WORDS.filter(
+            ({ number }) =>
+              number >= 801 &&
+              number <= 1200
+          );
+
+        case "p7p8":
+          return WORDS.filter(
+            ({ number }) =>
+              number >= 1201 &&
+              number <= 1600
+          );
+
+        case "p9p10":
+          return WORDS.filter(
+            ({ number }) =>
+              number >= 1601 &&
+              number <= 2000
+          );
+
+        case "p11":
+          return WORDS.filter(
+            ({ number }) =>
+              number >= 2001 &&
+              number <= 2200
+          );
+
+        case "all":
+        default:
+          return [...WORDS];
+      }
+    }
+
+
+    /*
+      ============================================================
+      SHUFFLING
+      ============================================================
+    */
+
+    function shuffle(array) {
+      const copy = [...array];
+
+      for (
+        let i = copy.length - 1;
+        i > 0;
+        i--
+      ) {
+        const j =
+          Math.floor(
+            Math.random() * (i + 1)
+          );
+
+        [
+          copy[i],
+          copy[j]
+        ] = [
+          copy[j],
+          copy[i]
+        ];
+      }
+
+      return copy;
+    }
+
+
+    /*
+      ============================================================
+      START ROUND
+      ============================================================
+    */
+
+    function startNewRound() {
+
+      currentPool =
+        getPool(currentMode);
+
+      deck =
+        shuffle(currentPool);
+
+      deckIndex = 0;
+
+      currentWord = null;
+
+      awaitingContinue = false;
+
+      wrongAnswersForCurrentWord =
+        new Set();
+
+      modeLabel.textContent =
+        MODE_NAMES[currentMode];
+
+      modeCount.textContent =
+        `${currentPool.length.toLocaleString()} words`;
+
+      feedback.textContent = "";
+
+      feedback.className =
+        "feedback";
+
+      hideAnswer();
+
+      showNextWord(true);
+    }
+
+
+    /*
+      ============================================================
+      NEXT WORD
+      ============================================================
+    */
+
+    function showNextWord(shouldSpeak = true) {
+
+      if (currentPool.length === 0) {
+
+        currentWord = null;
+
+        feedback.textContent =
+          "No words match this mode.";
+
+        feedback.className =
+          "feedback incorrect";
+
+        spellInput.value = "";
+
+        hideAnswer();
+
+        return;
+      }
+
+      /*
+        When the randomized deck is exhausted,
+        shuffle the same pool and begin another round.
+      */
+
+      if (deckIndex >= deck.length) {
+        deck = shuffle(currentPool);
+        deckIndex = 0;
+      }
+
+      currentWord =
+        deck[deckIndex];
+
+      deckIndex += 1;
+
+      awaitingContinue = false;
+
+      wrongAnswersForCurrentWord =
+        new Set();
+
+      spellInput.value = "";
+
+      feedback.textContent = "";
+
+      feedback.className =
+        "feedback";
+
+      hideAnswer();
+
+      checkBtn.textContent = "Check";
+
+      updateProgress();
+
+      spellInput.focus();
+
+      /*
+        Automatically pronounce each new word once.
+      */
+      if (shouldSpeak) {
+        speakCurrentWord();
+      }
+    }
+
+
+    /*
+      ============================================================
+      SPEECH
+      ============================================================
+    */
+
+    function speakText(text) {
+
+      if (
+        !("speechSynthesis" in window)
+      ) {
+        feedback.textContent =
+          "Speech synthesis is not available in this browser.";
+
+        feedback.className =
+          "feedback incorrect";
+
+        return;
+      }
+
+      window.speechSynthesis.cancel();
+
+      const utterance =
+        new SpeechSynthesisUtterance(text);
+
+      utterance.rate = 0.9;
+      utterance.pitch = 1;
+      utterance.volume = 1;
+
+      const voices =
+        window.speechSynthesis.getVoices();
+
+      const preferredVoice =
+        voices.find(
+          voice =>
+            /^en-US$/i.test(voice.lang)
+        ) ||
+        voices.find(
+          voice =>
+            /^en/i.test(voice.lang)
+        );
+
+      if (preferredVoice) {
+        utterance.voice =
+          preferredVoice;
+      }
+
+      window.speechSynthesis.speak(
+        utterance
+      );
+    }
+
+    function speakCurrentWord() {
+      if (!currentWord) {
+        return;
+      }
+
+      speakText(
+        currentWord.word
+      );
+    }
+
+
+    /*
+      ============================================================
+      ANSWER REVEAL
+      ============================================================
+    */
+
+    function showAnswer() {
+
+      revealedAnswerWord.textContent =
+        currentWord.word;
+
+      revealedAnswer.classList.add(
+        "visible"
+      );
+    }
+
+    function hideAnswer() {
+
+      revealedAnswer.classList.remove(
+        "visible"
+      );
+
+      revealedAnswerWord.textContent =
+        "";
+    }
+
+
+    /*
+      ============================================================
+      PROGRESS
+      ============================================================
+    */
+
+    function updateProgress() {
+
+      const total =
+        currentPool.length;
+
+      const position =
+        Math.min(
+          deckIndex,
+          total
+        );
+
+      progressText.textContent =
+        `${position.toLocaleString()} / ${total.toLocaleString()}`;
+
+      wordNumberText.textContent =
+        currentWord
+          ? `Word #${currentWord.number}`
+          : "Word #—";
+
+      const percent =
+        total === 0
+          ? 0
+          : (position / total) * 100;
+
+      progressBar.style.width =
+        `${Math.min(percent, 100)}%`;
+    }
+
+
+    /*
+      ============================================================
+      ANSWER CHECKING
+      ============================================================
+    */
+
+    function handleSubmit() {
+
+      if (!currentWord) {
+        startNewRound();
+        return;
+      }
+
+      /*
+        After an incorrect answer has been revealed,
+        Enter moves to the next word.
+      */
+      if (awaitingContinue) {
+        showNextWord(true);
+        return;
+      }
+
+      /*
+        Do not trim, lowercase, normalize, or otherwise
+        modify the submitted answer.
+
+        Exact comparison is intentional.
+      */
+      const submitted =
+        spellInput.value;
+
+      const expected =
+        currentWord.word;
+
+      /*
+        Empty answers do not count.
+      */
+      if (submitted.length === 0) {
+
+        feedback.textContent =
+          "Enter an answer first.";
+
+        feedback.className =
+          "feedback incorrect";
+
+        return;
+      }
+
+      /*
+        Exact correct answer.
+      */
+      if (submitted === expected) {
+
+        stats.attempts += 1;
+        stats.correct += 1;
+        stats.streak += 1;
+
+        if (
+          stats.streak >
+          stats.bestStreak
+        ) {
+          stats.bestStreak =
+            stats.streak;
+        }
+
+        saveStats();
+        updateStats();
+
+        feedback.textContent =
+          "Correct.";
+
+        feedback.className =
+          "feedback correct";
+
+        /*
+          Move automatically after a very
+          brief delay so the result is visible.
+        */
+        setTimeout(() => {
+          showNextWord(true);
+        }, 300);
+
+        return;
+      }
+
+      /*
+        If this exact same wrong answer has already
+        been submitted for the current word, it does
+        not count as another attempt.
+      */
+      if (
+        wrongAnswersForCurrentWord.has(
+          submitted
+        )
+      ) {
+
+        feedback.textContent =
+          "That same incorrect answer was already counted.";
+
+        feedback.className =
+          "feedback incorrect";
+
+        return;
+      }
+
+      /*
+        First unique wrong answer.
+      */
+      wrongAnswersForCurrentWord.add(
+        submitted
+      );
+
+      stats.attempts += 1;
+      stats.streak = 0;
+
+      saveStats();
+      updateStats();
+
+      feedback.textContent =
+        "Incorrect.";
+
+      feedback.className =
+        "feedback incorrect";
+
+      showAnswer();
+
+      /*
+        From this point, pressing Enter moves
+        to the next word.
+      */
+      awaitingContinue = true;
+
+      checkBtn.textContent =
+        "Next Word";
+
+      /*
+        Select the entered text so the revealed
+        answer is visually distinct and the
+        interface is ready for the next Enter.
+      */
+      spellInput.select();
+    }
+
+
+    /*
+      ============================================================
+      EVENTS
+      ============================================================
+    */
+
+    answerForm.addEventListener(
+      "submit",
+      event => {
+        event.preventDefault();
+        handleSubmit();
+      }
+    );
+
+    hearBtn.addEventListener(
+      "click",
+      () => {
+        speakCurrentWord();
+        spellInput.focus();
+      }
+    );
+
+    newRoundBtn.addEventListener(
+      "click",
+      () => {
+        startNewRound();
+      }
+    );
+
+    modeSelect.addEventListener(
+      "change",
+      () => {
+
+        currentMode =
+          modeSelect.value;
+
+        localStorage.setItem(
+          MODE_KEY,
+          currentMode
+        );
+
+        startNewRound();
+      }
+    );
+
+    resetBtn.addEventListener(
+      "click",
+      () => {
+
+        const confirmed =
+          window.confirm(
+            "Reset your saved score, attempts, streaks, and current mode?"
+          );
+
+        if (!confirmed) {
+          return;
+        }
+
+        localStorage.removeItem(
+          STORAGE_KEY
+        );
+
+        localStorage.removeItem(
+          MODE_KEY
+        );
+
+        stats = {
+          correct: 0,
+          attempts: 0,
+          streak: 0,
+          bestStreak: 0
+        };
+
+        currentMode = "all";
+
+        modeSelect.value = "all";
+
+        updateStats();
+        startNewRound();
+      }
+    );
+
+
+    /*
+      ============================================================
+      INITIALIZE
+      ============================================================
+    */
+
+    modeSelect.value =
+      currentMode;
+
+    updateStats();
+
+    /*
+      Do not automatically speak on initial page load,
+      because browsers commonly block speech synthesis
+      until the user interacts with the page.
+
+      The first new word is therefore spoken after
+      the first New Round / Hear / answer interaction.
+    */
+    startNewRound(false);
+
+    /*
+      Load browser voices when they become available.
+    */
+    if (
+      "speechSynthesis" in window
+    ) {
+
+      window.speechSynthesis.getVoices();
+
+      window.speechSynthesis.addEventListener(
+        "voiceschanged",
+        () => {
+          window.speechSynthesis.getVoices();
+        }
+      );
+    }
+  </script>
+</body>
+</html>
